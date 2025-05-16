@@ -1,0 +1,95 @@
+<div class="restaurant-list-container">
+    <div class="page-header">
+      <h1>Restaurants</h1>
+      <p>Discover and explore restaurants in your area</p>
+    </div>
+    
+    <div class="search-and-filter">
+      <div class="search-bar">
+        <input 
+          type="text" 
+          placeholder="Search restaurants, cuisines, or locations..." 
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="onSearch()"
+        >
+        <button (click)="onSearch()">Search</button>
+      </div>
+      
+      <button class="filter-toggle" (click)="filtersPanel.classList.toggle('open')">
+        Filters <span>&#9662;</span>
+      </button>
+    </div>
+    
+    <div class="content-wrapper">
+      <div class="filters-panel" #filtersPanel>
+        <div class="filter-section">
+          <h3>Cuisine Type</h3>
+          <div class="filter-options">
+            <div 
+              *ngFor="let cuisine of availableCuisines" 
+              class="filter-option"
+              [class.active]="cuisineFilters.includes(cuisine)"
+              (click)="toggleCuisineFilter(cuisine)"
+            >
+              {{cuisine}}
+            </div>
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <h3>Price Range</h3>
+          <div class="filter-options">
+            <div 
+              *ngFor="let price of priceRanges" 
+              class="filter-option"
+              [class.active]="priceFilters.includes(price)"
+              (click)="togglePriceFilter(price)"
+            >
+              {{price}}
+            </div>
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <h3>Minimum Rating</h3>
+          <div class="rating-filter">
+            <app-star-rating 
+              [rating]="ratingFilter" 
+              [editable]="true"
+              (click)="setRatingFilter(ratingFilter)"
+            ></app-star-rating>
+            <span *ngIf="ratingFilter > 0">{{ratingFilter}}+ stars</span>
+            <button *ngIf="ratingFilter > 0" class="clear-rating" (click)="setRatingFilter(0)">Clear</button>
+          </div>
+        </div>
+        
+        <button class="clear-filters" *ngIf="cuisineFilters.length || priceFilters.length || ratingFilter > 0" (click)="clearFilters()">
+          Clear All Filters
+        </button>
+      </div>
+      
+      <div class="restaurants-grid">
+        <div *ngIf="loading" class="loading-spinner">
+          <div class="spinner"></div>
+          <p>Loading restaurants...</p>
+        </div>
+        
+        <ng-container *ngIf="!loading">
+          <div *ngIf="filteredRestaurants.length === 0" class="no-results">
+            <p>No restaurants found matching your criteria.</p>
+            <button (click)="clearFilters()">Clear Filters</button>
+          </div>
+          
+          <div class="restaurant-list">
+            <app-restaurant-card 
+              *ngFor="let restaurant of filteredRestaurants" 
+              [restaurant]="restaurant">
+            </app-restaurant-card>
+          </div>
+
+          
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  

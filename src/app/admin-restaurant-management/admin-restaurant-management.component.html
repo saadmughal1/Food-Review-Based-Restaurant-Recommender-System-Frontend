@@ -1,0 +1,243 @@
+<div class="admin-restaurant-management">
+    <div class="admin-header">
+      <h1>Restaurant Management</h1>
+      <button class="add-button" (click)="addRestaurant()">Add New Restaurant</button>
+    </div>
+    
+    <div class="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search restaurants..." 
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+      >
+      <button (click)="onSearch()">Search</button>
+    </div>
+    
+    <div *ngIf="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Loading restaurants...</p>
+    </div>
+    
+    <div *ngIf="!loading && filteredRestaurants.length === 0" class="no-results">
+      <p>No restaurants found.</p>
+    </div>
+    
+    <div *ngIf="!loading && filteredRestaurants.length > 0" class="restaurant-table-container">
+      <table class="restaurant-table">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Cuisine</th>
+            <th>Price</th>
+            <th>Rating</th>
+            <th>Location</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let restaurant of filteredRestaurants">
+            <td>{{restaurant.name}}</td>
+            <td>
+              <div class="cuisine-tags">
+                <span *ngFor="let cuisine of restaurant.cuisineType">{{cuisine}}</span>
+              </div>
+            </td>
+            <td>{{restaurant.priceRange}}</td>
+            <td>
+              <div class="rating-display">
+                {{restaurant.averageRating?.toFixed(1) || 'N/A'}}
+                <app-star-rating [rating]="restaurant.averageRating || 0" [size]="'small'"></app-star-rating>
+              </div>
+            </td>
+            <td>{{restaurant.city}}, {{restaurant.state}}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="edit-button" (click)="editRestaurant(restaurant)">Edit</button>
+                <button class="delete-button" (click)="deleteRestaurant(restaurant.id!)">Delete</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Restaurant Form Modal -->
+    <div *ngIf="showForm" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>{{isEditing ? 'Edit' : 'Add'}} Restaurant</h2>
+          <button class="close-button" (click)="cancelForm()">×</button>
+        </div>
+        
+        <form [formGroup]="restaurantForm" (ngSubmit)="onSubmit()">
+          <div class="form-section">
+            <h3>Basic Information</h3>
+            
+            <div class="form-group">
+              <label for="name">Restaurant Name</label>
+              <input type="text" id="name" formControlName="name">
+              <div *ngIf="restaurantForm.get('name')?.invalid && restaurantForm.get('name')?.touched" class="error-message">
+                Restaurant name is required
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" formControlName="description" rows="3"></textarea>
+              <div *ngIf="restaurantForm.get('description')?.invalid && restaurantForm.get('description')?.touched" class="error-message">
+                Description is required
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label>Cuisine Types</label>
+                <div class="cuisine-options">
+                  <div 
+                    *ngFor="let cuisine of cuisineOptions" 
+                    class="cuisine-option"
+                    [class.selected]="isCuisineSelected(cuisine)"
+                    (click)="toggleCuisine(cuisine)"
+                  >
+                    {{cuisine}}
+                  </div>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label>Price Range</label>
+                <div class="price-options">
+                  <div 
+                    *ngFor="let price of priceOptions" 
+                    class="price-option"
+                    [class.selected]="restaurantForm.get('priceRange')?.value === price"
+                    (click)="restaurantForm.patchValue({priceRange: price})"
+                  >
+                    {{price}}
+                  </div>
+                </div>
+                <div *ngIf="restaurantForm.get('priceRange')?.invalid && restaurantForm.get('priceRange')?.touched" class="error-message">
+                  Price range is required
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <h3>Contact & Location</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="address">Address</label>
+                <input type="text" id="address" formControlName="address">
+                <div *ngIf="restaurantForm.get('address')?.invalid && restaurantForm.get('address')?.touched" class="error-message">
+                  Address is required
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" formControlName="city">
+                <div *ngIf="restaurantForm.get('city')?.invalid && restaurantForm.get('city')?.touched" class="error-message">
+                  City is required
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="state">State</label>
+                <input type="text" id="state" formControlName="state">
+                <div *ngIf="restaurantForm.get('state')?.invalid && restaurantForm.get('state')?.touched" class="error-message">
+                  State is required
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="zipCode">Zip Code</label>
+                <input type="text" id="zipCode" formControlName="zipCode">
+                <div *ngIf="restaurantForm.get('zipCode')?.invalid && restaurantForm.get('zipCode')?.touched" class="error-message">
+                  Zip code is required
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Phone</label>
+                <input type="text" id="phone" formControlName="phone">
+                <div *ngIf="restaurantForm.get('phone')?.invalid && restaurantForm.get('phone')?.touched" class="error-message">
+                  Phone is required
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="email">Email (Optional)</label>
+                <input type="email" id="email" formControlName="email">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="website">Website (Optional)</label>
+              <input type="text" id="website" formControlName="website">
+            </div>
+          </div>
+          
+          <div class="form-section" formGroupName="openingHours">
+            <h3>Opening Hours</h3>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="monday">Monday</label>
+                <input type="text" id="monday" formControlName="monday" placeholder="e.g. 9:00 AM - 10:00 PM">
+              </div>
+              
+              <div class="form-group">
+                <label for="tuesday">Tuesday</label>
+                <input type="text" id="tuesday" formControlName="tuesday" placeholder="e.g. 9:00 AM - 10:00 PM">
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="wednesday">Wednesday</label>
+                <input type="text" id="wednesday" formControlName="wednesday" placeholder="e.g. 9:00 AM - 10:00 PM">
+              </div>
+              
+              <div class="form-group">
+                <label for="thursday">Thursday</label>
+                <input type="text" id="thursday" formControlName="thursday" placeholder="e.g. 9:00 AM - 10:00 PM">
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="friday">Friday</label>
+                <input type="text" id="friday" formControlName="friday" placeholder="e.g. 9:00 AM - 10:00 PM">
+              </div>
+              
+              <div class="form-group">
+                <label for="saturday">Saturday</label>
+                <input type="text" id="saturday" formControlName="saturday" placeholder="e.g. 9:00 AM - 10:00 PM">
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="sunday">Sunday</label>
+              <input type="text" id="sunday" formControlName="sunday" placeholder="e.g. 9:00 AM - 10:00 PM">
+            </div>
+          </div>
+          
+          <div class="form-actions">
+            <button type="button" class="cancel-button" (click)="cancelForm()">Cancel</button>
+            <button type="submit" [disabled]="restaurantForm.invalid || saving" class="submit-button">
+              <span *ngIf="saving" class="spinner small"></span>
+              {{isEditing ? 'Update' : 'Add'}} Restaurant
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,28 @@
+<div class="recommendations-container">
+    <div class="page-header">
+      <h1>Your Personalized Recommendations</h1>
+      <p>Restaurants we think you'll love based on your preferences and reviews</p>
+    </div>
+    
+    <div *ngIf="loading" class="loading-spinner">
+      <div class="spinner"></div>
+      <p>Finding the perfect restaurants for you...</p>
+    </div>
+    
+    <div *ngIf="!loading && recommendations.length === 0" class="no-results">
+      <h2>No Recommendations Yet</h2>
+      <p>We need more information to provide personalized recommendations.</p>
+      <div class="action-buttons">
+        <a routerLink="/profile" class="action-button">Update Your Preferences</a>
+        <a routerLink="/restaurants" class="action-button secondary">Browse Restaurants</a>
+      </div>
+    </div>
+    
+    <div *ngIf="!loading && recommendations.length > 0" class="recommendations-grid">
+      <app-restaurant-card 
+        *ngFor="let restaurant of recommendations" 
+        [restaurant]="restaurant"
+      ></app-restaurant-card>
+    </div>
+  </div>
+  
