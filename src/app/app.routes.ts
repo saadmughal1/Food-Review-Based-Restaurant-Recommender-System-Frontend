@@ -8,6 +8,7 @@ import { RestaurantCardComponent } from './restaurant-card/restaurant-card.compo
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';
+
 import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 import { AdminRestaurantManagementComponent } from './admin-restaurant-management/admin-restaurant-management.component';
 import { AdminUserManagementComponent } from './admin-user-management/admin-user-management.component';
