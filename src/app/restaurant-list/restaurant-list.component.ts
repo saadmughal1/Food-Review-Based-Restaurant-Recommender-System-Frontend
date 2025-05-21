@@ -4,8 +4,8 @@ import { Restaurant } from '../restaurant';
 import { RestaurantService } from '../restaurant.service';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
-import { StarRatingComponent } from "../star-rating/star-rating.component";
-import { RestaurantCardComponent } from "../restaurant-card/restaurant-card.component";
+import { StarRatingComponent } from "../components/star-rating/star-rating.component";
+import { RestaurantCardComponent } from "../components/restaurant-card/restaurant-card.component";
 
 @Component({
   selector: 'app-restaurant-list',

@@ -1,10 +1,9 @@
 import { Routes } from '@angular/router';
-import { AdminGuard } from './admin.guard';
 import { AuthGuard } from './auth.guard';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { RestaurantCardComponent } from './restaurant-card/restaurant-card.component';
+import { RestaurantCardComponent } from './components/restaurant-card/restaurant-card.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
 import { RecommendationsComponent } from './recommendations/recommendations.component';

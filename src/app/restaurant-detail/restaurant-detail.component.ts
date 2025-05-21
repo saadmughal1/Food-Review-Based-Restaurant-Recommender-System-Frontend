@@ -6,9 +6,9 @@ import { Restaurant } from '../restaurant';
 import { RestaurantService } from '../restaurant.service';
 import { Review } from '../review';
 import { ReviewService } from '../review.service';
-import { StarRatingComponent } from "../star-rating/star-rating.component";
+import { StarRatingComponent } from "../components/star-rating/star-rating.component";
 import { ReviewFormComponent } from "../review-form/review-form.component";
-import { RestaurantCardComponent } from "../restaurant-card/restaurant-card.component";
+import { RestaurantCardComponent } from "../components/restaurant-card/restaurant-card.component";
 import { ReviewListComponent } from "../review-list/review-list.component";
 import { NgFor, NgIf } from '@angular/common';
 

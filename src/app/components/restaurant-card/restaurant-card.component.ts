@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Restaurant } from '../restaurant';
+import { Restaurant } from '../../restaurant';
 import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { RouterModule } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';

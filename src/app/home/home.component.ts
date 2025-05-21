@@ -4,7 +4,7 @@ import { RecommendationService } from '../recommendation.service';
 import { Restaurant } from '../restaurant';
 import { RestaurantService } from '../restaurant.service';
 import { FormsModule } from '@angular/forms';
-import { RestaurantCardComponent } from '../restaurant-card/restaurant-card.component';
+import { RestaurantCardComponent } from '../components/restaurant-card/restaurant-card.component';
 import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 

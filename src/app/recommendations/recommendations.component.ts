@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { RecommendationService } from '../recommendation.service';
 import { Restaurant } from '../restaurant';
-import { RestaurantCardComponent } from "../restaurant-card/restaurant-card.component";
+import { RestaurantCardComponent } from "../components/restaurant-card/restaurant-card.component";
 import { NgIf } from '@angular/common';
 
 @Component({
