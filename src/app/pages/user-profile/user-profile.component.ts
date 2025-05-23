@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../auth/auth.service';
-import { Review } from '../review';
-import { ReviewService } from '../review.service';
-import { User } from '../user';
-import { UserService } from '../user.service';
+import { AuthService } from '../../auth/auth.service';
+import { Review } from '../../types/review';
+import { ReviewService } from '../../services/review/review.service';
+import { User } from '../../types/user';
+import { UserService } from '../../services/user/user.service';
 import { CommonModule } from '@angular/common';
-import { ReviewListComponent } from '../review-list/review-list.component';
+import { ReviewListComponent } from '../../components/review-list/review-list.component';
 
 @Component({
   selector: 'app-user-profile',

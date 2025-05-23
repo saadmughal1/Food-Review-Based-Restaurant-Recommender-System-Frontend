@@ -1,0 +1,12 @@
+<section class="section">
+  <div class="restaurant-grid">
+    <app-restaurant-card
+      *ngFor="let restaurant of restaurants"
+      [restaurant]="restaurant"
+    ></app-restaurant-card>
+
+    <div *ngIf="restaurants.length === 0" class="no-results">
+      <p>No restaurants available at the moment.</p>
+    </div>
+  </div>
+</section>

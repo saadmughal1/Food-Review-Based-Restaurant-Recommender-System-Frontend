@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { BehaviorSubject, type Observable, of } from "rxjs"
 import { tap } from "rxjs/operators"
-import { ApiResponse, LoginData, LogoutData, User } from "../../types"
+import { ApiResponse, LoginData, LogoutData, User } from "../types/types"
 
 @Injectable({
   providedIn: "root",

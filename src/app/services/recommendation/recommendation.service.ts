@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { Observable, of } from "rxjs"
-import { Restaurant } from "./restaurant"
-import { AuthService } from "./auth/auth.service"
-import { RestaurantService } from "./restaurant.service"
+import { Restaurant } from "../../types/restaurant"
+import { AuthService } from "../../auth/auth.service"
+import { RestaurantService } from "../restaurant/restaurant.service"
 
 @Injectable({
   providedIn: "root",

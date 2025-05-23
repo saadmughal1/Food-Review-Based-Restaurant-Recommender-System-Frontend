@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
-import { Review } from '../review';
-import { ReviewService } from '../review.service';
-import { StarRatingComponent } from '../components/star-rating/star-rating.component';
+import { AuthService } from '../../auth/auth.service';
+import { Review } from '../../types/review';
+import { ReviewService } from '../../services/review/review.service';
+import { StarRatingComponent } from '../star-rating/star-rating.component';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
 

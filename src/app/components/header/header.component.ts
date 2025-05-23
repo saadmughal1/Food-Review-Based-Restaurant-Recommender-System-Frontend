@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import { User } from '../../../types';
+import { User } from '../../types/types';
 import { NgIf } from '@angular/common';
 
 @Component({

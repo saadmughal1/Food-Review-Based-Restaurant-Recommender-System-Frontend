@@ -6,18 +6,18 @@ import { RouterModule } from "@angular/router"
 import { AppComponent } from "./app/app.component"
 import { HeaderComponent } from "./app/components/header/header.component"
 import { FooterComponent } from "./app/components/footer/footer.component"
-import { HomeComponent } from "./app/home/home.component"
+import { HomeComponent } from "./app/pages/home/home.component"
 import { LoginComponent } from "./app/auth/login/login.component"
 import { RegisterComponent } from "./app/auth/register/register.component"
+import { RestaurantsComponent } from "./app/pages/restaurants/restaurants.component"
 import { RestaurantCardComponent } from "./app/components/restaurant-card/restaurant-card.component"
-import { RestaurantDetailComponent } from "./app/restaurant-detail/restaurant-detail.component"
-import { ReviewFormComponent } from "./app/review-form/review-form.component"
-import { UserProfileComponent } from "./app/user-profile/user-profile.component"
-import { RecommendationsComponent } from "./app/recommendations/recommendations.component"
-import { RestaurantListComponent } from "./app/restaurant-list/restaurant-list.component"
-import { ReviewListComponent } from "./app/review-list/review-list.component"
+import { RestaurantDetailComponent } from "./app/pages/restaurant-detail/restaurant-detail.component"
+import { ReviewFormComponent } from "./app/components/review-form/review-form.component"
+import { UserProfileComponent } from "./app/pages/user-profile/user-profile.component"
+import { RecommendationsComponent } from "./app/pages/recommendations/recommendations.component"
+import { ReviewListComponent } from "./app/components/review-list/review-list.component"
 import { StarRatingComponent } from "./app/components/star-rating/star-rating.component"
-import { AuthGuard } from "./app/auth.guard"
+
 import { routes } from "./app/app.routes"
 
 NgModule({
@@ -28,9 +28,9 @@ NgModule({
     HomeComponent,
     LoginComponent,
     RegisterComponent,
+    RestaurantsComponent,
     RestaurantCardComponent,
     ReviewFormComponent,
-    RestaurantListComponent,
     RestaurantDetailComponent,
     UserProfileComponent,
     RecommendationsComponent,

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
-import { RecommendationService } from '../recommendation.service';
-import { Restaurant } from '../restaurant';
-import { RestaurantService } from '../restaurant.service';
+import { AuthService } from '../../auth/auth.service';
+import { RecommendationService } from '../../services/recommendation/recommendation.service';
+import { Restaurant } from '../../types/restaurant';
+import { RestaurantService } from '../../services/restaurant/restaurant.service';
 import { FormsModule } from '@angular/forms';
-import { RestaurantCardComponent } from '../components/restaurant-card/restaurant-card.component';
+import { RestaurantCardComponent } from '../../components/restaurant-card/restaurant-card.component';
 import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { Observable, map } from 'rxjs';
