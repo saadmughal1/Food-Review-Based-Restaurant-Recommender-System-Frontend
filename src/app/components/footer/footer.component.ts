@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../auth/auth.service';
-import { map } from 'rxjs';
-import { Observable } from 'rxjs';
+import { Observable,map } from 'rxjs';
 
 @Component({
   selector: 'app-footer',

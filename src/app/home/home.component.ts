@@ -7,11 +7,12 @@ import { FormsModule } from '@angular/forms';
 import { RestaurantCardComponent } from '../components/restaurant-card/restaurant-card.component';
 import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { Observable, map } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-home',
-  imports: [FormsModule, RestaurantCardComponent, NgIf, RouterModule],
+  imports: [FormsModule, RestaurantCardComponent, NgIf, RouterModule, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -21,11 +22,17 @@ export class HomeComponent {
   isLoggedIn = false
   searchQuery = ""
 
+  isLoggedIn$: Observable<boolean>;
+
   constructor(
     private restaurantService: RestaurantService,
     private recommendationService: RecommendationService,
     private authService: AuthService,
-  ) {}
+  ) {
+    this.isLoggedIn$ = this.authService.currentUser$.pipe(
+      map(user => !!user)
+    );
+  }
 
   ngOnInit(): void {
     this.loadFeaturedRestaurants();

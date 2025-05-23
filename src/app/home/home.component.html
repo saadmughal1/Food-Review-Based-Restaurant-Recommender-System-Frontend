@@ -1,101 +1,127 @@
 <div class="home-container">
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-content">
-        <h1>Discover Your Next Favorite Restaurant</h1>
-        <p>Personalized recommendations based on real reviews and your preferences</p>
-        
-        <div class="search-container">
-          <input 
-            type="text" 
-            placeholder="Search for restaurants, cuisines, or locations..." 
-            [(ngModel)]="searchQuery"
-            (keyup.enter)="search()"
-          >
-          <button (click)="search()">Search</button>
-        </div>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1>Discover Your Next Favorite Restaurant</h1>
+      <p>
+        Personalized recommendations based on real reviews and your preferences
+      </p>
+
+      <div class="search-container">
+        <input
+          type="text"
+          placeholder="Search for restaurants, cuisines, or locations..."
+          [(ngModel)]="searchQuery"
+          (keyup.enter)="search()"
+        />
+        <button (click)="search()">Search</button>
       </div>
-    </section>
-    
-    <!-- Featured Restaurants Section -->
-    <section class="section">
-      <div class="section-header">
-        <h2>Featured Restaurants</h2>
-        <a routerLink="/restaurants" class="view-all">View All</a>
+    </div>
+  </section>
+
+  <!-- Featured Restaurants Section -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Featured Restaurants</h2>
+      <a routerLink="/restaurants" class="view-all">View All</a>
+    </div>
+
+    <div class="restaurant-grid">
+      <app-restaurant-card
+        *ngFor="let restaurant of featuredRestaurants"
+        [restaurant]="restaurant"
+      ></app-restaurant-card>
+
+      <div *ngIf="featuredRestaurants.length === 0" class="no-results">
+        <p>No featured restaurants available at the moment.</p>
       </div>
-      
-      <div class="restaurant-grid">
-        <app-restaurant-card 
-       *ngFor="let restaurant of featuredRestaurants" 
-       [restaurant]="restaurant"
-        ></app-restaurant-card>
-        
-        <div *ngIf="featuredRestaurants.length === 0" class="no-results">
-          <p>No featured restaurants available at the moment.</p>
-        </div>
+    </div>
+  </section>
+
+  <!-- Recommended Restaurants Section (Only for logged in users) -->
+  <section *ngIf="isLoggedIn" class="section">
+    <div class="section-header">
+      <h2>Recommended For You</h2>
+      <a routerLink="/recommendations" class="view-all">View All</a>
+    </div>
+
+    <div class="restaurant-grid">
+      <app-restaurant-card
+        *ngFor="let restaurant of recommendedRestaurants"
+        [restaurant]="restaurant"
+      ></app-restaurant-card>
+
+      <div *ngIf="recommendedRestaurants.length === 0" class="no-results">
+        <p>
+          No recommendations available yet. Start reviewing restaurants to get
+          personalized recommendations!
+        </p>
       </div>
-    </section>
-    
-    <!-- Recommended Restaurants Section (Only for logged in users) -->
-    <section *ngIf="isLoggedIn" class="section">
-      <div class="section-header">
-        <h2>Recommended For You</h2>
-        <a routerLink="/recommendations" class="view-all">View All</a>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="section how-it-works">
+    <h2>How It Works</h2>
+
+    <div class="steps-container">
+      <div class="step">
+        <div class="step-icon">1</div>
+        <h3>Create an Account</h3>
+        <p>
+          Sign up and tell us about your food preferences and dietary
+          restrictions.
+        </p>
       </div>
-      
-      <div class="restaurant-grid">
-        <app-restaurant-card 
-          *ngFor="let restaurant of recommendedRestaurants" 
-          [restaurant]="restaurant"
-        ></app-restaurant-card>
-        
-        <div *ngIf="recommendedRestaurants.length === 0" class="no-results">
-          <p>No recommendations available yet. Start reviewing restaurants to get personalized recommendations!</p>
-        </div>
+
+      <div class="step">
+        <div class="step-icon">2</div>
+        <h3>Explore Restaurants</h3>
+        <p>
+          Browse through our collection of restaurants and read authentic
+          reviews.
+        </p>
       </div>
-    </section>
-    
-    <!-- How It Works Section -->
-    <section class="section how-it-works">
-      <h2>How It Works</h2>
-      
-      <div class="steps-container">
-        <div class="step">
-          <div class="step-icon">1</div>
-          <h3>Create an Account</h3>
-          <p>Sign up and tell us about your food preferences and dietary restrictions.</p>
-        </div>
-        
-        <div class="step">
-          <div class="step-icon">2</div>
-          <h3>Explore Restaurants</h3>
-          <p>Browse through our collection of restaurants and read authentic reviews.</p>
-        </div>
-        
-        <div class="step">
-          <div class="step-icon">3</div>
-          <h3>Get Recommendations</h3>
-          <p>Receive personalized restaurant suggestions based on your preferences and reviews.</p>
-        </div>
-        
-        <div class="step">
-          <div class="step-icon">4</div>
-          <h3>Share Your Experience</h3>
-          <p>Write reviews for restaurants you've visited to help others and improve your recommendations.</p>
-        </div>
+
+      <div class="step">
+        <div class="step-icon">3</div>
+        <h3>Get Recommendations</h3>
+        <p>
+          Receive personalized restaurant suggestions based on your preferences
+          and reviews.
+        </p>
       </div>
-    </section>
-    
-    <!-- Call to Action Section -->
-    <section class="cta-section">
-      <div class="cta-content">
-        <h2>Ready to Discover Amazing Restaurants?</h2>
-        <p>Join our community and get personalized restaurant recommendations today!</p>
-        <div class="cta-buttons">
-          <a routerLink="/register" class="cta-button primary">Sign Up Now</a>
-          <a routerLink="/restaurants"  class="cta-button secondary">Browse Restaurants</a>
-        </div>
+
+      <div class="step">
+        <div class="step-icon">4</div>
+        <h3>Share Your Experience</h3>
+        <p>
+          Write reviews for restaurants you've visited to help others and
+          improve your recommendations.
+        </p>
       </div>
-    </section>
-  </div>
-  
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <h2>Ready to Discover Amazing Restaurants?</h2>
+      <p>
+        Join our community and get personalized restaurant recommendations
+        today!
+      </p>
+      <div class="cta-buttons">
+        <a
+          *ngIf="!(isLoggedIn$ | async)"
+          routerLink="/register"
+          class="cta-button primary"
+          >Sign Up Now</a
+        >
+        <a routerLink="/restaurants" class="cta-button secondary"
+          >Browse Restaurants</a
+        >
+      </div>
+    </div>
+  </section>
+</div>
