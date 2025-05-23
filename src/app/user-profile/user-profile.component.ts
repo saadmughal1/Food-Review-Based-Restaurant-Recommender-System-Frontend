@@ -54,6 +54,7 @@ export class UserProfileComponent implements OnInit {
   ngOnInit(): void {
     this.initForms()
     this.loadUserData()
+    this.loadUserPreferences()
   }
 
   initForms(): void {
@@ -74,15 +75,22 @@ export class UserProfileComponent implements OnInit {
   loadUserData(): void {
     this.loading = true
     this.currentUser = this.authService.currentUser
-
     if (this.currentUser) {
-      // Populate profile form
       this.profileForm.patchValue({
         firstName: this.currentUser.firstName || "",
         lastName: this.currentUser.lastName || "",
         email: this.currentUser.email || "",
         username: this.currentUser.username || "",
       })
+    }
+    this.loading = false
+  }
+
+  loadUserPreferences(): void {
+    this.loading = true
+    this.currentUser = this.authService.currentUser
+
+    if (this.currentUser) {
 
       // Populate preferences form
       this.preferencesForm.patchValue({
@@ -91,7 +99,6 @@ export class UserProfileComponent implements OnInit {
         // priceRange: this.currentUser.preferences?.priceRange || "",
       })
 
-      // Load user reviews
       // this.loadUserReviews(this.currentUser.id!)
     }
 
@@ -134,10 +141,10 @@ export class UserProfileComponent implements OnInit {
 
     this.userService.updateUser(updatedUser).subscribe({
       next: (user) => {
-        this.currentUser = user
-        this.authService.updateUserProfile(user).subscribe()
-        this.updateSuccess = true
-        this.saving = false
+        // this.currentUser = user
+        // this.authService.updateUserProfile(user).subscribe()
+        // this.updateSuccess = true
+        // this.saving = false
       },
       error: (error) => {
         console.error("Error updating profile", error)
@@ -160,10 +167,10 @@ export class UserProfileComponent implements OnInit {
 
     this.userService.updatePreferences(this.currentUser!.id!, preferences).subscribe({
       next: (user) => {
-        this.currentUser = user
-        this.authService.updateUserProfile(user).subscribe()
-        this.updateSuccess = true
-        this.saving = false
+        // this.currentUser = user
+        // this.authService.updateUserProfile(user).subscribe()
+        // this.updateSuccess = true
+        // this.saving = false
       },
       error: (error) => {
         console.error("Error updating preferences", error)

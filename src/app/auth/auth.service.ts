@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { BehaviorSubject, type Observable, of } from "rxjs"
 import { tap } from "rxjs/operators"
-import { LoginData, User } from "../../types"
+import { LoginData, LogoutData, User } from "../../types"
 
 @Injectable({
   providedIn: "root",
@@ -26,20 +26,18 @@ export class AuthService {
     return this.http.post<LoginData>(`/user/login`, user)
       .pipe(
         tap(data => {
-          console.log(data)
           localStorage.setItem('user', JSON.stringify(data.data.user));
-          localStorage.setItem('token', JSON.stringify(data.data.accessToken));
+          localStorage.setItem('token', data.data.accessToken);
           this.currentUserSubject.next(data.data.user);
         })
       );
   }
 
-
-
-  logout(): void {
+  logout(): Observable<LogoutData> {
     localStorage.removeItem("user");
     localStorage.removeItem("token");
     this.currentUserSubject.next(null)
+    return this.http.post<LogoutData>(`/user/logout`, {})
   }
 
   get currentUser(): User | null {
@@ -50,25 +48,13 @@ export class AuthService {
     return !!this.currentUser
   }
 
-  isAdmin(): boolean {
-    // return this.currentUser?.isAdmin || false
-    return false;
-  }
-
-  updateUserProfile(user: User): Observable<User> {
-    // Simulate profile update
-    const updatedUser = { ...this.currentUser, ...user }
-    localStorage.setItem("user", JSON.stringify(updatedUser))
-    this.currentUserSubject.next(updatedUser)
-    return of(updatedUser)
-
-    // Actual implementation:
-    // return this.http.put<User>(`${this.apiUrl}/users/${user.id}`, user)
-    //   .pipe(
-    //     tap(updatedUser => {
-    //       localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-    //       this.currentUserSubject.next(updatedUser);
-    //     })
-    //   );
+  updateUserProfile(user: { email: string, firstName: string, lastName: string }): Observable<LoginData> {
+    return this.http.patch<LoginData>(`/users/update`, user)
+      .pipe(
+        tap(updatedUser => {
+          // localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+          // this.currentUserSubject.next(updatedUser);
+        })
+      );
   }
 }

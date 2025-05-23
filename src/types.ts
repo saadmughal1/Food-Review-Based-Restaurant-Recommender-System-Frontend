@@ -16,3 +16,10 @@ export interface LoginData {
         user: User
     }
 }
+
+export interface LogoutData {
+    statusCode: number
+    message: string
+    success: string
+    data: {}
+}
