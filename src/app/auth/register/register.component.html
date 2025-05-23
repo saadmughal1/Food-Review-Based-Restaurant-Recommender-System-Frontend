@@ -47,6 +47,10 @@
           <div *ngIf="f['username'].errors['required']">
             Username is required
           </div>
+          <div *ngIf="f['username'].errors['pattern']">
+            Only letters, numbers, and underscores are allowed (no spaces or
+            special characters)
+          </div>
         </div>
       </div>
 

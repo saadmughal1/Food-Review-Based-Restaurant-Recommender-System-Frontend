@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../auth/auth.service';
 import { RecommendationService } from '../recommendation.service';
 import { Restaurant } from '../restaurant';
 import { RestaurantCardComponent } from "../components/restaurant-card/restaurant-card.component";

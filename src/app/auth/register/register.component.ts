@@ -4,9 +4,6 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClient } from "@angular/common/http"
-import { environment } from '../../environments/environment.development';
-
 
 @Component({
   selector: 'app-register',
@@ -25,30 +22,25 @@ export class RegisterComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
-    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
 
-    // if (this.authService.isLoggedIn()) {
-    //   this.router.navigate(["/"])
-    //   return
-    // }
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(["/"])
+      return
+    }
 
     this.registerForm = this.formBuilder.group(
       {
         firstName: ["", Validators.required],
         lastName: ["", Validators.required],
-        username: ["", Validators.required],
+        username: ["", [Validators.required, Validators.pattern(/^[a-zA-Z0-9_]+$/)],],
         email: ["", [Validators.required, Validators.email]],
         password: ["", [Validators.required, Validators.minLength(6)]],
       },
-
     )
   }
-
-
-
 
   get f() {
     return this.registerForm.controls
@@ -71,32 +63,17 @@ export class RegisterComponent {
       password: this.f["password"].value,
     }
 
-    this.http.post(`${environment.BASE_URL}/api/user/signup`, user).subscribe({
+    this.authService.register(user).subscribe({
       next: () => {
-        // this.router.navigate(["/"])
+        this.router.navigate(["/login"])
       },
       error: (error) => {
-        this.error = error
+        this.error = error.error.message
         this.loading = false
       },
       complete: () => {
         this.loading = false
       },
     })
-
-
-    // this.authService.register(user).subscribe({
-    //   next: () => {
-    //     // this.router.navigate(["/"])
-    //   },
-    //   error: (error) => {
-    //     this.error = error
-    //     this.loading = false
-    //   },
-    //   complete: () => {
-    //     this.loading = false
-    //   },
-    // })
   }
-
 }

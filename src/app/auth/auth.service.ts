@@ -2,13 +2,13 @@ import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { BehaviorSubject, type Observable, of } from "rxjs"
 import { tap } from "rxjs/operators"
-import { User } from "./user"
+import { User } from "../user"
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  private apiUrl = "api/auth" // Replace with your actual API URL
+  private apiUrl = "api/auth"
   private currentUserSubject = new BehaviorSubject<User | null>(null)
   public currentUser$ = this.currentUserSubject.asObservable()
 
@@ -47,25 +47,12 @@ export class AuthService {
   }
 
   register(user: User): Observable<User> {
-    // Simulate registration
-    return of({
-      ...user,
-      id: Math.floor(Math.random() * 1000),
-    }).pipe(
-      tap((newUser) => {
-        localStorage.setItem("currentUser", JSON.stringify(newUser))
-        this.currentUserSubject.next(newUser)
-      }),
-    )
-
-    // Actual implementation:
-    // return this.http.post<User>(`${this.apiUrl}/register`, user)
-    //   .pipe(
-    //     tap(newUser => {
-    //       localStorage.setItem('currentUser', JSON.stringify(newUser));
-    //       this.currentUserSubject.next(newUser);
-    //     })
-    //   );
+    return this.http.post<User>(`/user/signup`, user)
+      // .pipe(
+      //   tap(newUser => {
+      //     this.currentUserSubject.next(newUser);
+      //   })
+      // );
   }
 
   logout(): void {

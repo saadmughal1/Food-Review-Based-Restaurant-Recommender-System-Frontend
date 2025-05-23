@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import { RegisterComponent } from './auth/register/register.component';
 import { RestaurantCardComponent } from './components/restaurant-card/restaurant-card.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { RestaurantDetailComponent } from './restaurant-detail/restaurant-detail.component';
