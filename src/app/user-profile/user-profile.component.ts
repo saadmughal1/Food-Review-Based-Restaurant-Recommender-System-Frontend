@@ -26,7 +26,7 @@ export class UserProfileComponent implements OnInit {
   updateSuccess = false
   updateError = ""
 
-  // Available options for preferences
+
   cuisineOptions = [
     "Italian",
     "Indian",
@@ -132,23 +132,23 @@ export class UserProfileComponent implements OnInit {
     this.updateSuccess = false
     this.updateError = ""
 
-    const updatedUser: User = {
+    const updatedUser = {
       ...this.currentUser!,
       firstName: this.profileForm.value.firstName,
       lastName: this.profileForm.value.lastName,
       email: this.profileForm.value.email,
     }
 
-    this.userService.updateUser(updatedUser).subscribe({
+
+    this.authService.updateUserProfile(updatedUser).subscribe({
       next: (user) => {
-        // this.currentUser = user
-        // this.authService.updateUserProfile(user).subscribe()
+        // this.currentUser = user.data
         // this.updateSuccess = true
-        // this.saving = false
+        this.saving = false
       },
       error: (error) => {
-        console.error("Error updating profile", error)
-        this.updateError = "Failed to update profile. Please try again."
+        console.error("Error updating profile", error.error.message)
+        this.updateError = error.error.message
         this.saving = false
       },
     })

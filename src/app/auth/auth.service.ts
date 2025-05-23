@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { BehaviorSubject, type Observable, of } from "rxjs"
 import { tap } from "rxjs/operators"
-import { LoginData, LogoutData, User } from "../../types"
+import { ApiResponse, LoginData, LogoutData, User } from "../../types"
 
 @Injectable({
   providedIn: "root",
@@ -26,7 +26,15 @@ export class AuthService {
     return this.http.post<LoginData>(`/user/login`, user)
       .pipe(
         tap(data => {
-          localStorage.setItem('user', JSON.stringify(data.data.user));
+
+          const storeData = <User>{
+            "firstName": data.data.user.firstName,
+            "lastName": data.data.user.lastName,
+            "username": data.data.user.username,
+            "email": data.data.user.email,
+          }
+
+          localStorage.setItem('user', JSON.stringify(storeData));
           localStorage.setItem('token', data.data.accessToken);
           this.currentUserSubject.next(data.data.user);
         })
@@ -48,12 +56,19 @@ export class AuthService {
     return !!this.currentUser
   }
 
-  updateUserProfile(user: { email: string, firstName: string, lastName: string }): Observable<LoginData> {
-    return this.http.patch<LoginData>(`/users/update`, user)
+  updateUserProfile(user: { email: string, firstName: string, lastName: string }): Observable<ApiResponse<User>> {
+    console.log(user)
+    return this.http.patch<ApiResponse<User>>(`/user/update`, user)
       .pipe(
         tap(updatedUser => {
-          // localStorage.setItem('currentUser', JSON.stringify(updatedUser));
-          // this.currentUserSubject.next(updatedUser);
+          const storageData = <User>{
+            "email": user.email,
+            "firstName": user.firstName,
+            "lastName": user.lastName,
+            "username": this.currentUser?.username,
+          }
+          localStorage.setItem('user', JSON.stringify(storageData));
+          this.currentUserSubject.next(storageData);
         })
       );
   }
