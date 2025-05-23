@@ -27,7 +27,7 @@ export class ReviewFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private reviewService: ReviewService,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.reviewForm = this.formBuilder.group({
@@ -50,14 +50,14 @@ export class ReviewFormComponent implements OnInit {
     this.error = ""
 
     const currentUser = this.authService.currentUser
-    if (!currentUser || !currentUser.id) {
+    if (!currentUser || !currentUser._id) {
       this.error = "You must be logged in to submit a review"
       this.submitting = false
       return
     }
 
     const review: Review = {
-      userId: currentUser.id,
+      userId: 1,
       restaurantId: this.restaurantId,
       rating: this.reviewForm.value.rating,
       comment: this.reviewForm.value.comment,

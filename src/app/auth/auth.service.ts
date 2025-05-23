@@ -2,61 +2,43 @@ import { Injectable } from "@angular/core"
 import { HttpClient } from "@angular/common/http"
 import { BehaviorSubject, type Observable, of } from "rxjs"
 import { tap } from "rxjs/operators"
-import { User } from "../user"
+import { LoginData, User } from "../../types"
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  private apiUrl = "api/auth"
   private currentUserSubject = new BehaviorSubject<User | null>(null)
   public currentUser$ = this.currentUserSubject.asObservable()
 
   constructor(private http: HttpClient) {
-    const storedUser = localStorage.getItem("currentUser")
+    const storedUser = localStorage.getItem("user")
     if (storedUser) {
       this.currentUserSubject.next(JSON.parse(storedUser))
     }
   }
 
-  login(username: string, password: string): Observable<User> {
-    // In a real app, this would make an HTTP request to your backend
-    // For now, we'll simulate a successful login with mock data
-    return of({
-      id: 1,
-      username,
-      email: "user@example.com",
-      firstName: "John",
-      lastName: "Doe",
-      isAdmin: username === "admin", // Make 'admin' username an admin for testing
-    }).pipe(
-      tap((user) => {
-        localStorage.setItem("currentUser", JSON.stringify(user))
-        this.currentUserSubject.next(user)
-      }),
-    )
-
-    // Actual implementation would be:
-    // return this.http.post<User>(`${this.apiUrl}/login`, { username, password })
-    //   .pipe(
-    //     tap(user => {
-    //       localStorage.setItem('currentUser', JSON.stringify(user));
-    //       this.currentUserSubject.next(user);
-    //     })
-    //   );
-  }
-
   register(user: User): Observable<User> {
     return this.http.post<User>(`/user/signup`, user)
-      // .pipe(
-      //   tap(newUser => {
-      //     this.currentUserSubject.next(newUser);
-      //   })
-      // );
   }
 
+  login(user: { username: string, password: string }): Observable<LoginData> {
+    return this.http.post<LoginData>(`/user/login`, user)
+      .pipe(
+        tap(data => {
+          console.log(data)
+          localStorage.setItem('user', JSON.stringify(data.data.user));
+          localStorage.setItem('token', JSON.stringify(data.data.accessToken));
+          this.currentUserSubject.next(data.data.user);
+        })
+      );
+  }
+
+
+
   logout(): void {
-    localStorage.removeItem("currentUser")
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     this.currentUserSubject.next(null)
   }
 
@@ -69,13 +51,14 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this.currentUser?.isAdmin || false
+    // return this.currentUser?.isAdmin || false
+    return false;
   }
 
   updateUserProfile(user: User): Observable<User> {
     // Simulate profile update
     const updatedUser = { ...this.currentUser, ...user }
-    localStorage.setItem("currentUser", JSON.stringify(updatedUser))
+    localStorage.setItem("user", JSON.stringify(updatedUser))
     this.currentUserSubject.next(updatedUser)
     return of(updatedUser)
 

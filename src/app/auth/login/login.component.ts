@@ -26,22 +26,20 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // Redirect if already logged in
+    console.log(this.authService.isLoggedIn())
     if (this.authService.isLoggedIn()) {
       this.router.navigate(["/"])
       return
     }
 
     this.loginForm = this.formBuilder.group({
-      username: ["", Validators.required],
+      username: ["", [Validators.required, Validators.pattern(/^[a-zA-Z0-9_]+$/)],],
       password: ["", Validators.required],
     })
 
-    // Get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams["returnUrl"] || "/"
   }
 
-  // Convenience getter for easy access to form fields
   get f() {
     return this.loginForm.controls
   }
@@ -49,18 +47,25 @@ export class LoginComponent implements OnInit {
   onSubmit(): void {
     this.submitted = true
 
-    // Stop here if form is invalid
     if (this.loginForm.invalid) {
       return
     }
 
     this.loading = true
-    this.authService.login(this.f["username"].value, this.f["password"].value).subscribe({
+
+
+    const user = {
+      username: this.f["username"].value,
+      password: this.f["password"].value,
+    }
+
+    this.authService.login(user).subscribe({
       next: () => {
         this.router.navigate([this.returnUrl])
       },
       error: (error) => {
-        this.error = error
+
+        this.error = error.error.message
         this.loading = false
       },
       complete: () => {

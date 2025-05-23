@@ -14,7 +14,7 @@ import { ReviewListComponent } from '../review-list/review-list.component';
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
-export class UserProfileComponent implements OnInit{
+export class UserProfileComponent implements OnInit {
   currentUser: User | null = null
   userReviews: Review[] = []
   profileForm!: FormGroup
@@ -49,11 +49,11 @@ export class UserProfileComponent implements OnInit{
     private userService: UserService,
     private reviewService: ReviewService,
     private formBuilder: FormBuilder,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.initForms()
-    this.loadUserData()
+    // this.loadUserData()
   }
 
   initForms(): void {
@@ -71,32 +71,38 @@ export class UserProfileComponent implements OnInit{
     })
   }
 
-  loadUserData(): void {
-    this.loading = true
-    this.currentUser = this.authService.currentUser
+  // loadUserData(): void {
+  //   this.loading = true
+  //   // this.currentUser = this.authService.currentUser || null
+  //   this.currentUser = {
+  //     firstName: "123",
+  //     lastName: "123",
+  //     email: "123",
+  //     username: "123"
+  //   }
 
-    if (this.currentUser) {
-      // Populate profile form
-      this.profileForm.patchValue({
-        firstName: this.currentUser.firstName || "",
-        lastName: this.currentUser.lastName || "",
-        email: this.currentUser.email || "",
-        username: this.currentUser.username || "",
-      })
+  //   if (this.currentUser) {
+  //     // Populate profile form
+  //     this.profileForm.patchValue({
+  //       firstName: this.currentUser.firstName || "",
+  //       lastName: this.currentUser.lastName || "",
+  //       email: this.currentUser.email || "",
+  //       username: this.currentUser.username || "",
+  //     })
 
-      // Populate preferences form
-      this.preferencesForm.patchValue({
-        cuisinePreferences: this.currentUser.preferences?.cuisinePreferences || [],
-        dietaryRestrictions: this.currentUser.preferences?.dietaryRestrictions || [],
-        priceRange: this.currentUser.preferences?.priceRange || "",
-      })
+  //     // Populate preferences form
+  //     this.preferencesForm.patchValue({
+  //       // cuisinePreferences: this.currentUser.preferences?.cuisinePreferences || [],
+  //       // dietaryRestrictions: this.currentUser.preferences?.dietaryRestrictions || [],
+  //       // priceRange: this.currentUser.preferences?.priceRange || "",
+  //     })
 
-      // Load user reviews
-      this.loadUserReviews(this.currentUser.id!)
-    }
+  //     // Load user reviews
+  //     // this.loadUserReviews(this.currentUser.id!)
+  //   }
 
-    this.loading = false
-  }
+  //   this.loading = false
+  // }
 
   loadUserReviews(userId: number): void {
     this.reviewsLoading = true
@@ -171,6 +177,20 @@ export class UserProfileComponent implements OnInit{
         this.saving = false
       },
     })
+
+    // this.userService.updatePreferences(1!, preferences).subscribe({
+    //   next: (user) => {
+    //     this.currentUser = user
+    //     this.authService.updateUserProfile(user).subscribe()
+    //     this.updateSuccess = true
+    //     this.saving = false
+    //   },
+    //   error: (error) => {
+    //     console.error("Error updating preferences", error)
+    //     this.updateError = "Failed to update preferences. Please try again."
+    //     this.saving = false
+    //   },
+    // })
   }
 
   toggleCuisinePreference(cuisine: string): void {

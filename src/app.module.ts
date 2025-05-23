@@ -43,7 +43,7 @@ NgModule({
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
   ],
-  providers: [AuthGuard],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

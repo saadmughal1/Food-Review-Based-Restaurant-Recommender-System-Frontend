@@ -22,7 +22,9 @@ export class ReviewListComponent {
     private reviewService: ReviewService,
     private authService: AuthService,
   ) {
-    this.currentUserId = this.authService.currentUser?.id || null
+    // this.currentUserId = this.authService.currentUser?._id || null
+    this.currentUserId = 1
+
   }
 
   markHelpful(review: Review): void {
