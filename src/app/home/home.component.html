@@ -8,7 +8,10 @@
       </p>
 
       <div class="search-container">
-        <select name="city">
+        <select name="city" [(ngModel)]="selectedCity">
+          <option [ngValue]="undefined" disabled selected hidden>
+            Location
+          </option>
           <option *ngFor="let city of cities" [ngValue]="city">
             {{ city.name }}
           </option>
@@ -28,7 +31,7 @@
   <section class="section">
     <div class="section-header">
       <h2>Featured Restaurants</h2>
-      <a routerLink="/restaurants" class="view-all">View All</a>
+      <a routerLink="/recommendations" class="view-all">View All</a>
     </div>
 
     <div class="restaurant-grid">

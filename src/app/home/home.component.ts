@@ -21,6 +21,7 @@ export class HomeComponent {
   recommendedRestaurants: Restaurant[] = []
   isLoggedIn = false
   searchQuery = ""
+  selectedCity?: { name: string, coords: string };
 
   cities = [
     { name: 'Lahore', coords: '31.5204,74.3587' },
@@ -55,8 +56,8 @@ export class HomeComponent {
   loadFeaturedRestaurants(): void {
     this.restaurantService.getRestaurants().subscribe({
       next: (restaurants) => {
-        console.log('Featured Restaurants:', restaurants); // Debugging
-        this.featuredRestaurants = restaurants.slice(0, 3); // Show only the first 3 as featured
+        console.log('Featured Restaurants:', restaurants);
+        this.featuredRestaurants = restaurants.slice(0, 3);
       },
       error: (error) => {
         console.error('Error fetching featured restaurants:', error);
@@ -68,7 +69,7 @@ export class HomeComponent {
     if (this.isLoggedIn) {
       this.restaurantService.getRecommendations().subscribe({
         next: (restaurants) => {
-          console.log('Recommended Restaurants:', restaurants); // Debugging
+          console.log('Recommended Restaurants:', restaurants);
           this.recommendedRestaurants = restaurants;
         },
         error: (error) => {
@@ -80,8 +81,13 @@ export class HomeComponent {
 
   search(): void {
     if (this.searchQuery.trim()) {
-      // Navigate to restaurants page with search query
-      window.location.href = `/restaurants?search=${encodeURIComponent(this.searchQuery)}`
+      let url = `/restaurants?search=${encodeURIComponent(this.searchQuery)}`;
+
+      if (this.selectedCity) {
+        url += `&location=${encodeURIComponent(this.selectedCity.coords)}`;
+      }
+
+      window.location.href = url;
     }
   }
 

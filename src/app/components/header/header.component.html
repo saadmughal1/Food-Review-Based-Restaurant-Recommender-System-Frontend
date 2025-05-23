@@ -9,9 +9,9 @@
     <nav class="desktop-nav">
       <ul>
         <li><a routerLink="Home" [routerLinkActive]="'active'">Home</a></li>
-        <li>
+        <!-- <li>
           <a routerLink="/restaurants" routerLinkActive="active">Restaurants</a>
-        </li>
+        </li> -->
         <ng-container *ngIf="currentUser">
           <li>
             <a routerLink="/recommendations" routerLinkActive="active"
@@ -54,14 +54,14 @@
             >Home</a
           >
         </li>
-        <li>
+        <!-- <li>
           <a
             routerLink="/restaurants"
             routerLinkActive="active"
             (click)="isMenuOpen = false"
             >Restaurants</a
           >
-        </li>
+        </li> -->
         <ng-container *ngIf="currentUser">
           <li>
             <a
