@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from "@angular/common/http"
+import { environment } from '../../environments/environment.development';
+
 
 @Component({
   selector: 'app-register',
@@ -22,14 +25,15 @@ export class RegisterComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
-    // Redirect if already logged in
-    if (this.authService.isLoggedIn()) {
-      this.router.navigate(["/"])
-      return
-    }
+
+    // if (this.authService.isLoggedIn()) {
+    //   this.router.navigate(["/"])
+    //   return
+    // }
 
     this.registerForm = this.formBuilder.group(
       {
@@ -38,33 +42,20 @@ export class RegisterComponent {
         username: ["", Validators.required],
         email: ["", [Validators.required, Validators.email]],
         password: ["", [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ["", Validators.required],
       },
-      {
-        validator: this.passwordMatchValidator,
-      },
+
     )
   }
 
-  // Custom validator to check if passwords match
-  passwordMatchValidator(formGroup: FormGroup) {
-    const password = formGroup.get("password")?.value
-    const confirmPassword = formGroup.get("confirmPassword")?.value
 
-    if (password !== confirmPassword) {
-      formGroup.get("confirmPassword")?.setErrors({ passwordMismatch: true })
-    } else {
-      formGroup.get("confirmPassword")?.setErrors(null)
-    }
-  }
 
-  // Convenience getter for easy access to form fields
+
   get f() {
     return this.registerForm.controls
   }
 
   onSubmit(): void {
-    // this.submitted = true
+    this.submitted = true
 
     if (this.registerForm.invalid) {
       return
@@ -80,9 +71,9 @@ export class RegisterComponent {
       password: this.f["password"].value,
     }
 
-    this.authService.register(user).subscribe({
+    this.http.post(`${environment.BASE_URL}/api/user/signup`, user).subscribe({
       next: () => {
-        this.router.navigate(["/"])
+        // this.router.navigate(["/"])
       },
       error: (error) => {
         this.error = error
@@ -92,6 +83,20 @@ export class RegisterComponent {
         this.loading = false
       },
     })
+
+
+    // this.authService.register(user).subscribe({
+    //   next: () => {
+    //     // this.router.navigate(["/"])
+    //   },
+    //   error: (error) => {
+    //     this.error = error
+    //     this.loading = false
+    //   },
+    //   complete: () => {
+    //     this.loading = false
+    //   },
+    // })
   }
 
 }
