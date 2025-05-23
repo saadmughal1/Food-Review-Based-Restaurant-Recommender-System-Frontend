@@ -53,7 +53,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForms()
-    // this.loadUserData()
+    this.loadUserData()
   }
 
   initForms(): void {
@@ -71,38 +71,32 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
-  // loadUserData(): void {
-  //   this.loading = true
-  //   // this.currentUser = this.authService.currentUser || null
-  //   this.currentUser = {
-  //     firstName: "123",
-  //     lastName: "123",
-  //     email: "123",
-  //     username: "123"
-  //   }
+  loadUserData(): void {
+    this.loading = true
+    this.currentUser = this.authService.currentUser
 
-  //   if (this.currentUser) {
-  //     // Populate profile form
-  //     this.profileForm.patchValue({
-  //       firstName: this.currentUser.firstName || "",
-  //       lastName: this.currentUser.lastName || "",
-  //       email: this.currentUser.email || "",
-  //       username: this.currentUser.username || "",
-  //     })
+    if (this.currentUser) {
+      // Populate profile form
+      this.profileForm.patchValue({
+        firstName: this.currentUser.firstName || "",
+        lastName: this.currentUser.lastName || "",
+        email: this.currentUser.email || "",
+        username: this.currentUser.username || "",
+      })
 
-  //     // Populate preferences form
-  //     this.preferencesForm.patchValue({
-  //       // cuisinePreferences: this.currentUser.preferences?.cuisinePreferences || [],
-  //       // dietaryRestrictions: this.currentUser.preferences?.dietaryRestrictions || [],
-  //       // priceRange: this.currentUser.preferences?.priceRange || "",
-  //     })
+      // Populate preferences form
+      this.preferencesForm.patchValue({
+        // cuisinePreferences: this.currentUser.preferences?.cuisinePreferences || [],
+        // dietaryRestrictions: this.currentUser.preferences?.dietaryRestrictions || [],
+        // priceRange: this.currentUser.preferences?.priceRange || "",
+      })
 
-  //     // Load user reviews
-  //     // this.loadUserReviews(this.currentUser.id!)
-  //   }
+      // Load user reviews
+      // this.loadUserReviews(this.currentUser.id!)
+    }
 
-  //   this.loading = false
-  // }
+    this.loading = false
+  }
 
   loadUserReviews(userId: number): void {
     this.reviewsLoading = true
