@@ -22,6 +22,19 @@ export class HomeComponent {
   isLoggedIn = false
   searchQuery = ""
 
+  cities = [
+    { name: 'Lahore', coords: '31.5204,74.3587' },
+    { name: 'Karachi', coords: '24.8607,67.0011' },
+    { name: 'Islamabad', coords: '33.6844,73.0479' },
+    { name: 'Faisalabad', coords: '31.4504,73.1350' },
+    { name: 'Rawalpindi', coords: '33.5651,73.0169' },
+    { name: 'Multan', coords: '30.1575,71.5249' },
+    { name: 'Peshawar', coords: '34.0151,71.5805' },
+    { name: 'Quetta', coords: '30.1798,66.9750' },
+    { name: 'Sialkot', coords: '32.4945,74.5229' },
+    { name: 'Hyderabad', coords: '25.3960,68.3578' }
+  ];
+
   isLoggedIn$: Observable<boolean>;
 
   constructor(

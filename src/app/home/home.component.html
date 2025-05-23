@@ -8,6 +8,11 @@
       </p>
 
       <div class="search-container">
+        <select name="city">
+          <option *ngFor="let city of cities" [ngValue]="city">
+            {{ city.name }}
+          </option>
+        </select>
         <input
           type="text"
           placeholder="Search for restaurants, cuisines, or locations..."
