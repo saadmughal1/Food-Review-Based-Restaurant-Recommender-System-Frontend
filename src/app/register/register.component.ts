@@ -22,7 +22,7 @@ export class RegisterComponent {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     // Redirect if already logged in
@@ -64,9 +64,8 @@ export class RegisterComponent {
   }
 
   onSubmit(): void {
-    this.submitted = true
+    // this.submitted = true
 
-    // Stop here if form is invalid
     if (this.registerForm.invalid) {
       return
     }
@@ -94,5 +93,5 @@ export class RegisterComponent {
       },
     })
   }
-  
+
 }
