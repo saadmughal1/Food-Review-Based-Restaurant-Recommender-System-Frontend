@@ -2,201 +2,26 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { RestaurantCardComponent } from '../../components/restaurant-card/restaurant-card.component';
 import { CommonModule, NgIf } from '@angular/common';
-import { Restaurant } from '../../types/restaurant';
 import { RestaurantService } from '../../services/restaurant/restaurant.service';
 import { Place } from '../../types/types';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { ResponsebarComponent } from '../../components/responsebar/responsebar.component';
+
+
 @Component({
   selector: 'app-restaurants',
-  imports: [RestaurantCardComponent, NgIf, RouterModule, CommonModule, SpinnerComponent],
+  imports: [RestaurantCardComponent, NgIf, RouterModule, CommonModule, SpinnerComponent, ResponsebarComponent],
   templateUrl: './restaurants.component.html',
   styleUrl: './restaurants.component.css'
 })
 export class RestaurantsComponent {
-  restaurants: Restaurant[] = [
-    {
-      id: 1,
-      name: "Delicious Bites",
-      description: "A cozy restaurant serving international cuisine with a modern twist.",
-      address: "123 Main St",
-      city: "Foodville",
-      state: "CA",
-      zipCode: "12345",
-      phone: "(123) 456-7890",
-      website: "www.deliciousbites.com",
-      cuisineType: ["Italian", "Mediterranean"],
-      priceRange: "$$",
-      openingHours: {
-        monday: "11:00 AM - 10:00 PM",
-        tuesday: "11:00 AM - 10:00 PM",
-        wednesday: "11:00 AM - 10:00 PM",
-        thursday: "11:00 AM - 10:00 PM",
-        friday: "11:00 AM - 11:00 PM",
-        saturday: "10:00 AM - 11:00 PM",
-        sunday: "10:00 AM - 9:00 PM",
-      },
-      images: ["/assets/images/restaurant1.jpg"],
-      averageRating: 4.5,
-      reviewCount: 120,
-    },
-    {
-      id: 1,
-      name: "Delicious Bites",
-      description: "A cozy restaurant serving international cuisine with a modern twist.",
-      address: "123 Main St",
-      city: "Foodville",
-      state: "CA",
-      zipCode: "12345",
-      phone: "(123) 456-7890",
-      website: "www.deliciousbites.com",
-      cuisineType: ["Italian", "Mediterranean"],
-      priceRange: "$$",
-      openingHours: {
-        monday: "11:00 AM - 10:00 PM",
-        tuesday: "11:00 AM - 10:00 PM",
-        wednesday: "11:00 AM - 10:00 PM",
-        thursday: "11:00 AM - 10:00 PM",
-        friday: "11:00 AM - 11:00 PM",
-        saturday: "10:00 AM - 11:00 PM",
-        sunday: "10:00 AM - 9:00 PM",
-      },
-      images: ["/assets/images/restaurant1.jpg"],
-      averageRating: 4.5,
-      reviewCount: 120,
-    },
-    {
-      id: 1,
-      name: "Delicious Bites",
-      description: "A cozy restaurant serving international cuisine with a modern twist.",
-      address: "123 Main St",
-      city: "Foodville",
-      state: "CA",
-      zipCode: "12345",
-      phone: "(123) 456-7890",
-      website: "www.deliciousbites.com",
-      cuisineType: ["Italian", "Mediterranean"],
-      priceRange: "$$",
-      openingHours: {
-        monday: "11:00 AM - 10:00 PM",
-        tuesday: "11:00 AM - 10:00 PM",
-        wednesday: "11:00 AM - 10:00 PM",
-        thursday: "11:00 AM - 10:00 PM",
-        friday: "11:00 AM - 11:00 PM",
-        saturday: "10:00 AM - 11:00 PM",
-        sunday: "10:00 AM - 9:00 PM",
-      },
-      images: ["/assets/images/restaurant1.jpg"],
-      averageRating: 4.5,
-      reviewCount: 120,
-    },
-    {
-      id: 1,
-      name: "Delicious Bites",
-      description: "A cozy restaurant serving international cuisine with a modern twist.",
-      address: "123 Main St",
-      city: "Foodville",
-      state: "CA",
-      zipCode: "12345",
-      phone: "(123) 456-7890",
-      website: "www.deliciousbites.com",
-      cuisineType: ["Italian", "Mediterranean"],
-      priceRange: "$$",
-      openingHours: {
-        monday: "11:00 AM - 10:00 PM",
-        tuesday: "11:00 AM - 10:00 PM",
-        wednesday: "11:00 AM - 10:00 PM",
-        thursday: "11:00 AM - 10:00 PM",
-        friday: "11:00 AM - 11:00 PM",
-        saturday: "10:00 AM - 11:00 PM",
-        sunday: "10:00 AM - 9:00 PM",
-      },
-      images: ["/assets/images/restaurant1.jpg"],
-      averageRating: 4.5,
-      reviewCount: 120,
-    },
-    {
-      id: 1,
-      name: "Delicious Bites",
-      description: "A cozy restaurant serving international cuisine with a modern twist.",
-      address: "123 Main St",
-      city: "Foodville",
-      state: "CA",
-      zipCode: "12345",
-      phone: "(123) 456-7890",
-      website: "www.deliciousbites.com",
-      cuisineType: ["Italian", "Mediterranean"],
-      priceRange: "$$",
-      openingHours: {
-        monday: "11:00 AM - 10:00 PM",
-        tuesday: "11:00 AM - 10:00 PM",
-        wednesday: "11:00 AM - 10:00 PM",
-        thursday: "11:00 AM - 10:00 PM",
-        friday: "11:00 AM - 11:00 PM",
-        saturday: "10:00 AM - 11:00 PM",
-        sunday: "10:00 AM - 9:00 PM",
-      },
-      images: ["/assets/images/restaurant1.jpg"],
-      averageRating: 4.5,
-      reviewCount: 120,
-    },
-    {
-      id: 1,
-      name: "Delicious Bites",
-      description: "A cozy restaurant serving international cuisine with a modern twist.",
-      address: "123 Main St",
-      city: "Foodville",
-      state: "CA",
-      zipCode: "12345",
-      phone: "(123) 456-7890",
-      website: "www.deliciousbites.com",
-      cuisineType: ["Italian", "Mediterranean"],
-      priceRange: "$$",
-      openingHours: {
-        monday: "11:00 AM - 10:00 PM",
-        tuesday: "11:00 AM - 10:00 PM",
-        wednesday: "11:00 AM - 10:00 PM",
-        thursday: "11:00 AM - 10:00 PM",
-        friday: "11:00 AM - 11:00 PM",
-        saturday: "10:00 AM - 11:00 PM",
-        sunday: "10:00 AM - 9:00 PM",
-      },
-      images: ["/assets/images/restaurant1.jpg"],
-      averageRating: 4.5,
-      reviewCount: 120,
-    },
-    {
-      id: 1,
-      name: "Delicious Bites",
-      description: "A cozy restaurant serving international cuisine with a modern twist.",
-      address: "123 Main St",
-      city: "Foodville",
-      state: "CA",
-      zipCode: "12345",
-      phone: "(123) 456-7890",
-      website: "www.deliciousbites.com",
-      cuisineType: ["Italian", "Mediterranean"],
-      priceRange: "$$",
-      openingHours: {
-        monday: "11:00 AM - 10:00 PM",
-        tuesday: "11:00 AM - 10:00 PM",
-        wednesday: "11:00 AM - 10:00 PM",
-        thursday: "11:00 AM - 10:00 PM",
-        friday: "11:00 AM - 11:00 PM",
-        saturday: "10:00 AM - 11:00 PM",
-        sunday: "10:00 AM - 9:00 PM",
-      },
-      images: ["/assets/images/restaurant1.jpg"],
-      averageRating: 4.5,
-      reviewCount: 120,
-    }
-  ]
-
-
-
   places: Place[] = []
 
   private searchQuery: string | null = null;
   private location: string | null = null;
+
+  responseTime: number = 0;
+  totalResults: number = 0;
   loading = false
   error = ""
 
@@ -215,9 +40,12 @@ export class RestaurantsComponent {
 
     this.loading = true
 
+    const startTime = performance.now(); // Start timer
+
     this.restaurantService.getPlaces(this.searchQuery!, this.location).subscribe({
       next: (data) => {
         this.places = data;
+        this.totalResults = data.length;
       },
       error: (error) => {
         this.error = error.error.message
@@ -225,6 +53,8 @@ export class RestaurantsComponent {
       },
       complete: () => {
         this.loading = false
+        const endTime = performance.now();
+        this.responseTime = endTime - startTime;
       },
     })
 
