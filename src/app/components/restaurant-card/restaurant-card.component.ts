@@ -26,7 +26,6 @@ export class RestaurantCardComponent {
       return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${apiKey}`
     }
     return ""
-
   }
 
 }

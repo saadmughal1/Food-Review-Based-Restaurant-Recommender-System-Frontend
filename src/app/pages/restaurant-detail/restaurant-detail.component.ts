@@ -10,9 +10,11 @@ import { StarRatingComponent } from "../../components/star-rating/star-rating.co
 import { ReviewFormComponent } from "../../components/review-form/review-form.component";
 import { ReviewListComponent } from "../../components/review-list/review-list.component";
 import { NgFor, NgIf } from '@angular/common';
-import { Place } from '../../types/types';
+import { Place, PlacePhoto } from '../../types/types';
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { environment } from '../../../environments/environment.development';
+
+
 
 @Component({
   selector: 'app-restaurant-detail',
@@ -67,14 +69,14 @@ export class RestaurantDetailComponent implements OnInit {
     })
   }
 
-  getPhotoUrl(): string {
-    if (this.place?.photos && this.place.photos.length > 0) {
-      const photoRef = this.place.photos[0].photo_reference;
+  getPhotoUrl(photo: PlacePhoto): string {
+
+    if (photo) {
+      const photoRef = photo.photo_reference;
       const apiKey = environment.GOOGLE_MAP_API_KEY;
       return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${apiKey}`
     }
     return ""
-
   }
 
   setActiveTab(tab: string): void {

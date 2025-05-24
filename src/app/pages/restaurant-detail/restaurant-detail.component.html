@@ -167,21 +167,21 @@
       <div *ngIf="activeTab === 'photos'" class="photos-tab">
         <h2>Restaurant Photos</h2>
 
-        <!-- <div
-          *ngIf="!restaurant.images || restaurant.images.length === 0"
+        <div
+          *ngIf="!place.photos || place.photos.length === 0"
           class="no-results"
         >
           <p>No photos available for this restaurant.</p>
-        </div> -->
+        </div>
 
-        <!-- <div
-          *ngIf="restaurant.images && restaurant.images.length > 0"
+        <div
+          *ngIf="place.photos && place.photos.length > 0"
           class="photos-grid"
         >
-          <div *ngFor="let image of restaurant.images" class="photo-item">
-            <img [src]="image" [alt]="restaurant.name" />
+          <div *ngFor="let image of place.photos" class="photo-item">
+            <img [src]="getPhotoUrl(image)" [alt]="place.name" />
           </div>
-        </div> -->
+        </div>
       </div>
     </div>
   </div>

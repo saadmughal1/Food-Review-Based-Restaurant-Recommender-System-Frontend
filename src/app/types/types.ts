@@ -47,14 +47,7 @@ export interface Place {
     rating: number;
     types: string[];
     user_ratings_total: number
-    photos: Array<{
-        height: number;
-        width: number;
-        html_attributions: string[];
-        photo_reference: string;
-    }>
-
-
+    photos: PlacePhoto[]
 
     website?: string;
     url?: string;
@@ -72,6 +65,12 @@ export interface Place {
     delivery?: boolean;
 }
 
+export interface PlacePhoto {
+    height: number;
+    width: number;
+    html_attributions: string[];
+    photo_reference: string;
+}
 
 
 export interface Review {
