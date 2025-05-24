@@ -55,13 +55,13 @@ export class ReviewFormComponent implements OnInit {
 
     const review = {
       rating: this.reviewForm.value.rating,
-      date: Date.now().toString(),
       text: this.reviewForm.value.comment,
       placeId: this.placeId,
     }
 
     this.reviewService.addReview(review).subscribe({
       next: (newReview) => {
+        console.log(newReview)
         this.reviewSubmitted.emit(newReview.data)
         this.submitting = false
       },

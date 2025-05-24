@@ -16,16 +16,23 @@ export class ReviewService {
   constructor(private http: HttpClient) { }
 
 
+  formatDate(dateInput: string | number | Date): string {
+    const date = new Date(dateInput);
 
-  addReview({ rating, date, text, placeId }: {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+  }
+
+  addReview({ rating, text, placeId }: {
     rating: number,
-    date: string,
     text: string,
     placeId: string,
   }): Observable<ApiResponse<Review>> {
     return this.http.post<ApiResponse<Review>>(`/review/add`, {
       rating,
-      date,
       text,
       placeId
     });

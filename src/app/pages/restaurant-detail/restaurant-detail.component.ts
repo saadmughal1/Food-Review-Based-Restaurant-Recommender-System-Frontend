@@ -48,6 +48,7 @@ export class RestaurantDetailComponent implements OnInit {
 
       this.restaurantService.getPlace(placeId).subscribe({
         next: (data) => {
+          console.log(data)
           this.place = data;
         },
         error: (error) => {
@@ -84,8 +85,8 @@ export class RestaurantDetailComponent implements OnInit {
     const data: Review = {
       author_name: review.author_name,
       rating: review.rating,
-      relative_time_description: this.formatDate(review.date!).toString(),
-      text: review.review!,
+      relative_time_description: review.relative_time_description,
+      text: review.text,
       author_url: "",
       profile_photo_url: "string",
     };
@@ -96,16 +97,4 @@ export class RestaurantDetailComponent implements OnInit {
   getDefaultImage(): string {
     return "/assets/images/restaurant-placeholder.jpg"
   }
-
-  formatDate(dateInput: string | number | Date): string {
-    const date = new Date(dateInput);
-
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-
-    return `${day}-${month}-${year}`;
-  }
-
-
 }

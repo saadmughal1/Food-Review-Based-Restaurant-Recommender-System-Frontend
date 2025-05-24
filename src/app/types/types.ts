@@ -72,16 +72,12 @@ export interface PlacePhoto {
     photo_reference: string;
 }
 
-
 export interface Review {
     author_name: string;
     author_url: string;
     profile_photo_url: string;
     rating: number;
-    relative_time_description: string;
+    relative_time_description?: string;
     text: string;
-
-
-    review?: string;
-    date?: string;
+    createdAt?: string
 }

@@ -11,7 +11,12 @@
           >
             <div class="username">{{ review.author_name || "Anonymous" }}</div>
           </a>
-          <div class="review-date">{{ review.relative_time_description }}</div>
+          <div class="review-date">
+            {{
+              review.relative_time_description ||
+                (review.createdAt && formatDate(review.createdAt!))
+            }}
+          </div>
         </div>
       </div>
 
