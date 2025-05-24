@@ -81,11 +81,21 @@ export class RestaurantDetailComponent implements OnInit {
     this.showReviewForm = !this.showReviewForm
   }
 
+  getFormattedDate() {
+    const now = new Date();
+    return now.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric"
+    });
+  }
+
+
   onReviewSubmitted(review: Review): void {
     const data: Review = {
       author_name: review.author_name,
       rating: review.rating,
-      relative_time_description: review.relative_time_description,
+      relative_time_description: this.getFormattedDate(),
       text: review.text,
       author_url: "",
       profile_photo_url: "string",
