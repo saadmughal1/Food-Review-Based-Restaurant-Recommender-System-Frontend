@@ -21,11 +21,7 @@ import { environment } from '../../../environments/environment.development';
   styleUrl: './restaurant-detail.component.css'
 })
 export class RestaurantDetailComponent implements OnInit {
-  restaurant: Restaurant | null = null
   reviews: Review[] = []
-  similarRestaurants: Restaurant[] = []
-  reviewsLoading = true
-  similarLoading = true
   isLoggedIn = false
   activeTab = "overview"
   showReviewForm = false
@@ -37,8 +33,6 @@ export class RestaurantDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private restaurantService: RestaurantService,
-    private reviewService: ReviewService,
-    private recommendationService: RecommendationService,
     private authService: AuthService,
   ) { }
 
@@ -70,9 +64,6 @@ export class RestaurantDetailComponent implements OnInit {
 
 
 
-      this.loadRestaurant(1)
-      this.loadReviews(1)
-      this.loadSimilarRestaurants(1)
     })
   }
 
@@ -86,58 +77,6 @@ export class RestaurantDetailComponent implements OnInit {
 
   }
 
-
-
-
-
-
-
-
-
-
-
-  loadRestaurant(id: number): void {
-    this.loading = true
-    this.restaurantService.getRestaurant(id).subscribe({
-      next: (restaurant) => {
-        this.restaurant = restaurant
-        this.loading = false
-      },
-      error: (error) => {
-        console.error("Error loading restaurant", error)
-        this.loading = false
-      },
-    })
-  }
-
-  loadReviews(restaurantId: number): void {
-    this.reviewsLoading = true
-    this.reviewService.getReviewsByRestaurant(restaurantId).subscribe({
-      next: (reviews) => {
-        this.reviews = reviews
-        this.reviewsLoading = false
-      },
-      error: (error) => {
-        console.error("Error loading reviews", error)
-        this.reviewsLoading = false
-      },
-    })
-  }
-
-  loadSimilarRestaurants(restaurantId: number): void {
-    this.similarLoading = true
-    this.recommendationService.getSimilarRestaurants(restaurantId).subscribe({
-      next: (restaurants) => {
-        this.similarRestaurants = restaurants
-        this.similarLoading = false
-      },
-      error: (error) => {
-        console.error("Error loading similar restaurants", error)
-        this.similarLoading = false
-      },
-    })
-  }
-
   setActiveTab(tab: string): void {
     this.activeTab = tab
   }
@@ -147,22 +86,11 @@ export class RestaurantDetailComponent implements OnInit {
   }
 
   onReviewSubmitted(review: Review): void {
-    // Refresh reviews after submission
-    this.loadReviews(this.restaurant?.id || 0)
     this.showReviewForm = false
   }
 
   getDefaultImage(): string {
     return "/assets/images/restaurant-placeholder.jpg"
-  }
-
-  getOpeningHoursForToday(): string {
-    if (!this.restaurant?.openingHours) return "Hours not available"
-
-    const days = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
-    const today = days[new Date().getDay()]
-
-    return this.restaurant.openingHours[today as keyof typeof this.restaurant.openingHours] || "Closed"
   }
 
 }

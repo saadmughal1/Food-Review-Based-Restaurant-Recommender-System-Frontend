@@ -58,15 +58,16 @@ export interface Place {
 
     website?: string;
     url?: string;
+    reviews: Review[];
+    international_phone_number?: string;
+    formatted_phone_number?: string;
+
     takeout?: boolean;
     serves_vegetarian_food?: boolean;
     serves_lunch?: boolean;
     serves_dinner?: boolean;
     serves_brunch?: boolean;
     serves_breakfast?: boolean;
-    reviews: Review[];
-    international_phone_number?: string;
-    formatted_phone_number?: string;
     dine_in?: boolean;
     delivery?: boolean;
 }

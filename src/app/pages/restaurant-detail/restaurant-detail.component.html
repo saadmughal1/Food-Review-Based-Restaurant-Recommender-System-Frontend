@@ -123,6 +123,20 @@
               </ng-container>
             </div>
           </div>
+
+          <div class="info-card">
+            <h3>Additional Info</h3>
+            <ul class="additional-info">
+              <li *ngIf="place?.takeout">Takeout Available</li>
+              <li *ngIf="place?.dine_in">Dine-In Available</li>
+              <li *ngIf="place?.delivery">Delivery Available</li>
+              <li *ngIf="place?.serves_vegetarian_food">Vegetarian Food</li>
+              <li *ngIf="place?.serves_breakfast">Serves Breakfast</li>
+              <li *ngIf="place?.serves_brunch">Serves Brunch</li>
+              <li *ngIf="place?.serves_lunch">Serves Lunch</li>
+              <li *ngIf="place?.serves_dinner">Serves Dinner</li>
+            </ul>
+          </div>
         </div>
       </div>
 
