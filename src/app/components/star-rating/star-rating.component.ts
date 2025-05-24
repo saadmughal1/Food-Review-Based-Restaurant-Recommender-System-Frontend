@@ -1,5 +1,5 @@
 import { NgFor } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-star-rating',
@@ -11,6 +11,7 @@ export class StarRatingComponent {
   @Input() rating = 0
   @Input() editable = false
   @Input() size: "small" | "medium" | "large" = "medium"
+  @Output() ratingChange = new EventEmitter<number>();
 
   stars: number[] = [1, 2, 3, 4, 5]
   hoveredRating = 0
@@ -42,6 +43,7 @@ export class StarRatingComponent {
   setRating(star: number): void {
     if (this.editable) {
       this.rating = star
+      this.ratingChange.emit(this.rating);
     }
   }
 

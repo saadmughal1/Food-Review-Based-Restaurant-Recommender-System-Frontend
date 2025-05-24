@@ -69,7 +69,6 @@
     <!-- Review Form (if toggled) -->
     <div *ngIf="showReviewForm" class="review-form-container">
       <app-review-form
-        [restaurantId]="123"
         (reviewSubmitted)="onReviewSubmitted($event)"
         (cancelled)="showReviewForm = false"
       ></app-review-form>

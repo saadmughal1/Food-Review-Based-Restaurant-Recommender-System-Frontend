@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
-import { Review } from '../../types/review';
 import { ReviewService } from '../../services/review/review.service';
 import { StarRatingComponent } from "../star-rating/star-rating.component";
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { NgFor, NgIf } from '@angular/common';
+import { Review } from '../../types/types';
 
 @Component({
   selector: 'app-review-form',
@@ -15,7 +15,7 @@ import { NgFor, NgIf } from '@angular/common';
 })
 export class ReviewFormComponent implements OnInit {
 
-  @Input() restaurantId!: number
+  @Input() placeId!: string
   @Output() reviewSubmitted = new EventEmitter<Review>()
   @Output() cancelled = new EventEmitter<void>()
 
@@ -26,6 +26,7 @@ export class ReviewFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private reviewService: ReviewService,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit(): void {
@@ -33,10 +34,14 @@ export class ReviewFormComponent implements OnInit {
       rating: [5, [Validators.required, Validators.min(1), Validators.max(5)]],
       comment: ["", [Validators.required, Validators.minLength(10)]],
     })
+
+    this.route.params.subscribe((params) => {
+      this.placeId = params["placeId"]
+    })
   }
 
   onStarClick(event: MouseEvent): void {
-    const rating = parseInt((event.target as HTMLElement).getAttribute('data-rating') || '0', 10);
+    const rating = parseInt((event.currentTarget as HTMLElement).getAttribute('data-rating') || '0', 10);
     this.setRating(rating);
   }
 
@@ -48,26 +53,21 @@ export class ReviewFormComponent implements OnInit {
     this.submitting = true
     this.error = ""
 
-
-    console.log(this.reviewForm)
-
-    return;
-    const review: Review = {
-      userId: 1,
-      restaurantId: this.restaurantId,
+    const review = {
       rating: this.reviewForm.value.rating,
-      comment: this.reviewForm.value.comment,
-      date: new Date(),
+      date: Date.now().toString(),
+      text: this.reviewForm.value.comment,
+      placeId: this.placeId,
     }
 
     this.reviewService.addReview(review).subscribe({
       next: (newReview) => {
-        this.reviewSubmitted.emit(newReview)
+        this.reviewSubmitted.emit(newReview.data)
         this.submitting = false
       },
       error: (error) => {
         console.error("Error submitting review", error)
-        this.error = "Failed to submit review. Please try again."
+        this.error = error.error.message
         this.submitting = false
       },
     })

@@ -80,4 +80,8 @@ export interface Review {
     rating: number;
     relative_time_description: string;
     text: string;
+
+
+    review?: string;
+    date?: string;
 }
