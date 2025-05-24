@@ -1,40 +1,28 @@
 <div class="review-list">
-    <div *ngFor="let review of reviews" class="review-card" [class.own-review]="isCurrentUserReview(review)">
-      <div class="review-header">
-        <div class="user-info">
-          <div class="avatar">{{review.username?.charAt(0) || 'U'}}</div>
-          <div class="user-details">
-            <div class="username">{{review.username || 'Anonymous'}}</div>
-            <div class="review-date">{{formatDate(review.date)}}</div>
-          </div>
-        </div>
-        
-        <div class="review-rating">
-          <span class="rating-value">{{review.rating}}</span>
-          <app-star-rating [rating]="review.rating"></app-star-rating>
-        </div>
-      </div>
-      
-      <div *ngIf="showRestaurantName" class="restaurant-name">
-        Restaurant: <a [routerLink]="['/restaurants', review.restaurantId]">Restaurant Name</a>
-      </div>
-      
-      <div class="review-content">
-        <p>{{review.comment}}</p>
-      </div>
-      
-      <div *ngIf="review.images && review.images.length > 0" class="review-images">
-        <div *ngFor="let image of review.images" class="review-image">
-          <img [src]="image" alt="Review image">
+  <div *ngFor="let review of reviews" class="review-card">
+    <div class="review-header">
+      <div class="user-info">
+        <div class="avatar">{{ review.author_name?.charAt(0) || "U" }}</div>
+        <div class="user-details">
+          <a
+            [href]="review.author_url"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <div class="username">{{ review.author_name || "Anonymous" }}</div>
+          </a>
+          <div class="review-date">{{ review.relative_time_description }}</div>
         </div>
       </div>
-      
-      <div class="review-footer">
-        <button class="helpful-button" (click)="markHelpful(review)">
-          <span class="helpful-icon">👍</span>
-          Helpful {{review.helpful ? '(' + review.helpful + ')' : ''}}
-        </button>
+
+      <div class="review-rating">
+        <span class="rating-value">{{ review.rating }}</span>
+        <app-star-rating [rating]="review.rating"></app-star-rating>
       </div>
     </div>
+
+    <div class="review-content">
+      <p>{{ review.text }}</p>
+    </div>
   </div>
-  
+</div>

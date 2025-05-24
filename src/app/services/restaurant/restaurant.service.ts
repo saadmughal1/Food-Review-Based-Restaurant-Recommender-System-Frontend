@@ -98,6 +98,10 @@ export class RestaurantService {
     return this.http.get<Place[]>(`/place?keyword=${keyword}&location=${location}`)
   }
 
+  getPlace(placeId: string): Observable<Place> {
+    return this.http.get<Place>(`/place/${placeId}`)
+  }
+
 
 
 

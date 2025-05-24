@@ -8,13 +8,15 @@ import { Review } from '../../types/review';
 import { ReviewService } from '../../services/review/review.service';
 import { StarRatingComponent } from "../../components/star-rating/star-rating.component";
 import { ReviewFormComponent } from "../../components/review-form/review-form.component";
-import { RestaurantCardComponent } from "../../components/restaurant-card/restaurant-card.component";
 import { ReviewListComponent } from "../../components/review-list/review-list.component";
 import { NgFor, NgIf } from '@angular/common';
+import { Place } from '../../types/types';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { environment } from '../../../environments/environment.development';
 
 @Component({
   selector: 'app-restaurant-detail',
-  imports: [StarRatingComponent, ReviewFormComponent, RestaurantCardComponent, ReviewListComponent, NgFor, NgIf],
+  imports: [StarRatingComponent, ReviewFormComponent, ReviewListComponent, NgFor, NgIf, SpinnerComponent],
   templateUrl: './restaurant-detail.component.html',
   styleUrl: './restaurant-detail.component.css'
 })
@@ -22,12 +24,15 @@ export class RestaurantDetailComponent implements OnInit {
   restaurant: Restaurant | null = null
   reviews: Review[] = []
   similarRestaurants: Restaurant[] = []
-  loading = true
   reviewsLoading = true
   similarLoading = true
   isLoggedIn = false
   activeTab = "overview"
   showReviewForm = false
+
+  place?: Place
+  loading = false
+  error = ""
 
   constructor(
     private route: ActivatedRoute,
@@ -35,18 +40,61 @@ export class RestaurantDetailComponent implements OnInit {
     private reviewService: ReviewService,
     private recommendationService: RecommendationService,
     private authService: AuthService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.isLoggedIn()
 
     this.route.params.subscribe((params) => {
-      const id = +params["id"]
-      this.loadRestaurant(id)
-      this.loadReviews(id)
-      this.loadSimilarRestaurants(id)
+      const placeId = params["placeId"]
+
+      this.loading = true
+
+      this.restaurantService.getPlace(placeId).subscribe({
+        next: (data) => {
+          console.log(data)
+          this.place = data;
+        },
+        error: (error) => {
+          console.log(error)
+          this.error = error.error.message
+          this.loading = false
+        },
+        complete: () => {
+          this.loading = false
+        },
+      })
+
+
+
+
+
+
+      this.loadRestaurant(1)
+      this.loadReviews(1)
+      this.loadSimilarRestaurants(1)
     })
   }
+
+  getPhotoUrl(): string {
+    if (this.place?.photos && this.place.photos.length > 0) {
+      const photoRef = this.place.photos[0].photo_reference;
+      const apiKey = environment.GOOGLE_MAP_API_KEY;
+      return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${apiKey}`
+    }
+    return ""
+
+  }
+
+
+
+
+
+
+
+
+
+
 
   loadRestaurant(id: number): void {
     this.loading = true

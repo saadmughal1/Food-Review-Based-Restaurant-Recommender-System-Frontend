@@ -25,9 +25,7 @@ export class RestaurantsComponent {
   loading = false
   error = ""
 
-
   constructor(private route: ActivatedRoute, private router: Router, private restaurantService: RestaurantService) { }
-
 
   ngOnInit(): void {
     this.searchQuery = this.route.snapshot.queryParamMap.get('search');
@@ -40,7 +38,7 @@ export class RestaurantsComponent {
 
     this.loading = true
 
-    const startTime = performance.now(); // Start timer
+    const startTime = performance.now();
 
     this.restaurantService.getPlaces(this.searchQuery!, this.location).subscribe({
       next: (data) => {
@@ -48,6 +46,7 @@ export class RestaurantsComponent {
         this.totalResults = data.length;
       },
       error: (error) => {
+        console.log(error)
         this.error = error.error.message
         this.loading = false
       },
