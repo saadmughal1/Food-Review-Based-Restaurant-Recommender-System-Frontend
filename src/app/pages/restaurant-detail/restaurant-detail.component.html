@@ -41,15 +41,6 @@
       </div>
     </div>
 
-    <!-- Review Form (if toggled) -->
-    <!-- <div *ngIf="showReviewForm" class="review-form-container">
-      <app-review-form
-        [restaurantId]="restaurant.id!"
-        (reviewSubmitted)="onReviewSubmitted($event)"
-        (cancelled)="showReviewForm = false"
-      ></app-review-form>
-    </div> -->
-
     <!-- Restaurant Tabs -->
     <div class="restaurant-tabs">
       <div
@@ -73,6 +64,15 @@
       >
         Photos
       </div>
+    </div>
+
+    <!-- Review Form (if toggled) -->
+    <div *ngIf="showReviewForm" class="review-form-container">
+      <app-review-form
+        [restaurantId]="123"
+        (reviewSubmitted)="onReviewSubmitted($event)"
+        (cancelled)="showReviewForm = false"
+      ></app-review-form>
     </div>
 
     <!-- Tab Content -->

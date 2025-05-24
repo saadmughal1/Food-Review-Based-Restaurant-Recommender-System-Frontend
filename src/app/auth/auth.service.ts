@@ -57,7 +57,6 @@ export class AuthService {
   }
 
   updateUserProfile(user: { email: string, firstName: string, lastName: string }): Observable<ApiResponse<User>> {
-    console.log(user)
     return this.http.patch<ApiResponse<User>>(`/user/update`, user)
       .pipe(
         tap(updatedUser => {
@@ -72,4 +71,9 @@ export class AuthService {
         })
       );
   }
+
+  updatePreferences(cuisinePreferences: string[]): Observable<ApiResponse<{}>> {
+    return this.http.post<ApiResponse<{}>>(`/preference/save`, { cuisinePreferences })
+  }
+
 }

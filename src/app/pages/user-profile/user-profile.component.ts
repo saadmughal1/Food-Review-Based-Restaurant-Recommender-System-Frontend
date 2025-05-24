@@ -4,9 +4,9 @@ import { AuthService } from '../../auth/auth.service';
 import { Review } from '../../types/review';
 import { ReviewService } from '../../services/review/review.service';
 import { User } from '../../types/user';
-import { UserService } from '../../services/user/user.service';
 import { CommonModule } from '@angular/common';
 import { ReviewListComponent } from '../../components/review-list/review-list.component';
+
 
 @Component({
   selector: 'app-user-profile',
@@ -22,10 +22,10 @@ export class UserProfileComponent implements OnInit {
   activeTab = "profile"
   loading = true
   reviewsLoading = true
-  saving = false
-  updateSuccess = false
-  updateError = ""
 
+
+  saving = false
+  updateError = ""
 
   cuisineOptions = [
     "Italian",
@@ -40,13 +40,10 @@ export class UserProfileComponent implements OnInit {
     "French",
   ]
 
-  dietaryOptions = ["Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free", "Halal", "Kosher", "Pescatarian"]
 
-  priceOptions = ["$", "$$", "$$$", "$$$$"]
 
   constructor(
     private authService: AuthService,
-    private userService: UserService,
     private reviewService: ReviewService,
     private formBuilder: FormBuilder,
   ) { }
@@ -55,21 +52,6 @@ export class UserProfileComponent implements OnInit {
     this.initForms()
     this.loadUserData()
     this.loadUserPreferences()
-  }
-
-  initForms(): void {
-    this.profileForm = this.formBuilder.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      email: ["", [Validators.required, Validators.email]],
-      username: [{ value: "", disabled: true }],
-    })
-
-    this.preferencesForm = this.formBuilder.group({
-      cuisinePreferences: [[]],
-      dietaryRestrictions: [[]],
-      priceRange: [""],
-    })
   }
 
   loadUserData(): void {
@@ -86,41 +68,17 @@ export class UserProfileComponent implements OnInit {
     this.loading = false
   }
 
-  loadUserPreferences(): void {
-    this.loading = true
-    this.currentUser = this.authService.currentUser
-
-    if (this.currentUser) {
-
-      // Populate preferences form
-      this.preferencesForm.patchValue({
-        // cuisinePreferences: this.currentUser.preferences?.cuisinePreferences || [],
-        // dietaryRestrictions: this.currentUser.preferences?.dietaryRestrictions || [],
-        // priceRange: this.currentUser.preferences?.priceRange || "",
-      })
-
-      // this.loadUserReviews(this.currentUser.id!)
-    }
-
-    this.loading = false
-  }
-
-  loadUserReviews(userId: number): void {
-    this.reviewsLoading = true
-    this.reviewService.getReviewsByUser(userId).subscribe({
-      next: (reviews) => {
-        this.userReviews = reviews
-        this.reviewsLoading = false
-      },
-      error: (error) => {
-        console.error("Error loading user reviews", error)
-        this.reviewsLoading = false
-      },
+  initForms(): void {
+    this.profileForm = this.formBuilder.group({
+      firstName: ["", Validators.required],
+      lastName: ["", Validators.required],
+      email: ["", [Validators.required, Validators.email]],
+      username: [{ value: "", disabled: true }],
     })
-  }
 
-  setActiveTab(tab: string): void {
-    this.activeTab = tab
+    this.preferencesForm = this.formBuilder.group({
+      cuisinePreferences: [[]],
+    })
   }
 
   updateProfile(): void {
@@ -129,7 +87,6 @@ export class UserProfileComponent implements OnInit {
     }
 
     this.saving = true
-    this.updateSuccess = false
     this.updateError = ""
 
     const updatedUser = {
@@ -142,8 +99,7 @@ export class UserProfileComponent implements OnInit {
 
     this.authService.updateUserProfile(updatedUser).subscribe({
       next: (user) => {
-        // this.currentUser = user.data
-        // this.updateSuccess = true
+        this.currentUser = user.data
         this.saving = false
       },
       error: (error) => {
@@ -154,45 +110,51 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
+
+
+  setActiveTab(tab: string): void {
+    this.activeTab = tab
+  }
+
+
+
   updatePreferences(): void {
     this.saving = true
-    this.updateSuccess = false
     this.updateError = ""
 
-    const preferences = {
-      cuisinePreferences: this.preferencesForm.value.cuisinePreferences,
-      dietaryRestrictions: this.preferencesForm.value.dietaryRestrictions,
-      priceRange: this.preferencesForm.value.priceRange,
+    this.authService.updatePreferences(this.preferencesForm.value.cuisinePreferences)
+      .subscribe({
+        next: (user) => {
+          console.log(user)
+          this.saving = false
+        },
+        error: (error) => {
+          console.error("Error updating preferences", error)
+          this.updateError = "Failed to update preferences. Please try again."
+          this.saving = false
+        },
+      })
+  }
+
+
+  loadUserPreferences(): void {
+    this.loading = true
+    this.currentUser = this.authService.currentUser
+
+    if (this.currentUser) {
+
+      // Populate preferences form
+      this.preferencesForm.patchValue({
+        // cuisinePreferences: this.currentUser.preferences?.cuisinePreferences || [],
+        // dietaryRestrictions: this.currentUser.preferences?.dietaryRestrictions || [],
+      })
+
+      // this.loadUserReviews(this.currentUser.id!)
     }
 
-    this.userService.updatePreferences(this.currentUser!.id!, preferences).subscribe({
-      next: (user) => {
-        // this.currentUser = user
-        // this.authService.updateUserProfile(user).subscribe()
-        // this.updateSuccess = true
-        // this.saving = false
-      },
-      error: (error) => {
-        console.error("Error updating preferences", error)
-        this.updateError = "Failed to update preferences. Please try again."
-        this.saving = false
-      },
-    })
-
-    // this.userService.updatePreferences(1!, preferences).subscribe({
-    //   next: (user) => {
-    //     this.currentUser = user
-    //     this.authService.updateUserProfile(user).subscribe()
-    //     this.updateSuccess = true
-    //     this.saving = false
-    //   },
-    //   error: (error) => {
-    //     console.error("Error updating preferences", error)
-    //     this.updateError = "Failed to update preferences. Please try again."
-    //     this.saving = false
-    //   },
-    // })
+    this.loading = false
   }
+
 
   toggleCuisinePreference(cuisine: string): void {
     const currentPreferences = this.preferencesForm.value.cuisinePreferences || []
@@ -230,12 +192,6 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  setPriceRange(price: string): void {
-    this.preferencesForm.patchValue({
-      priceRange: price,
-    })
-  }
-
   isCuisineSelected(cuisine: string): boolean {
     return (this.preferencesForm.value.cuisinePreferences || []).includes(cuisine)
   }
@@ -243,9 +199,4 @@ export class UserProfileComponent implements OnInit {
   isDietarySelected(restriction: string): boolean {
     return (this.preferencesForm.value.dietaryRestrictions || []).includes(restriction)
   }
-
-  isPriceSelected(price: string): boolean {
-    return this.preferencesForm.value.priceRange === price
-  }
-
 }

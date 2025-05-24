@@ -60,17 +60,10 @@ export class RestaurantDetailComponent implements OnInit {
           this.loading = false
         },
       })
-
-
-
-
-
-
     })
   }
 
   getPhotoUrl(photo: PlacePhoto): string {
-
     if (photo) {
       const photoRef = photo.photo_reference;
       const apiKey = environment.GOOGLE_MAP_API_KEY;
@@ -84,6 +77,7 @@ export class RestaurantDetailComponent implements OnInit {
   }
 
   toggleReviewForm(): void {
+    this.activeTab = 'reviews'
     this.showReviewForm = !this.showReviewForm
   }
 
