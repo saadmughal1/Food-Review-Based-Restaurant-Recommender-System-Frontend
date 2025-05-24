@@ -76,4 +76,8 @@ export class AuthService {
     return this.http.post<ApiResponse<{}>>(`/preference/save`, { cuisinePreferences })
   }
 
+
+  loadPreferences(): Observable<ApiResponse<{ cuisine: string[] }>> {
+    return this.http.get<ApiResponse<{ cuisine: string[] }>>(`/preference/`)
+  }
 }

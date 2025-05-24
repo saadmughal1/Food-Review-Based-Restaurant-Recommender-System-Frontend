@@ -110,13 +110,9 @@ export class UserProfileComponent implements OnInit {
     })
   }
 
-
-
   setActiveTab(tab: string): void {
     this.activeTab = tab
   }
-
-
 
   updatePreferences(): void {
     this.saving = true
@@ -136,25 +132,25 @@ export class UserProfileComponent implements OnInit {
       })
   }
 
-
   loadUserPreferences(): void {
     this.loading = true
-    this.currentUser = this.authService.currentUser
 
-    if (this.currentUser) {
-
-      // Populate preferences form
-      this.preferencesForm.patchValue({
-        // cuisinePreferences: this.currentUser.preferences?.cuisinePreferences || [],
-        // dietaryRestrictions: this.currentUser.preferences?.dietaryRestrictions || [],
+    this.authService.loadPreferences()
+      .subscribe({
+        next: (preferences) => {
+          this.preferencesForm.patchValue({
+            cuisinePreferences: preferences.data.cuisine
+          })
+          this.loading = false
+        },
+        error: (error) => {
+          console.error("Error loading preferences", error)
+          this.loading = false
+        },
       })
-
-      // this.loadUserReviews(this.currentUser.id!)
-    }
 
     this.loading = false
   }
-
 
   toggleCuisinePreference(cuisine: string): void {
     const currentPreferences = this.preferencesForm.value.cuisinePreferences || []
