@@ -8,7 +8,7 @@
 
     <div class="restaurant-info">
       <div class="rating">
-        <span class="rating-value">{{ place.rating.toFixed(1) }}</span>
+        <span class="rating-value">{{ place.rating?.toFixed(1) }}</span>
         <app-star-rating [rating]="place.rating || 0"></app-star-rating>
       </div>
     </div>
