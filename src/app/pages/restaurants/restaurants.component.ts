@@ -3,6 +3,8 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { RestaurantCardComponent } from '../../components/restaurant-card/restaurant-card.component';
 import { CommonModule, NgIf } from '@angular/common';
 import { Restaurant } from '../../types/restaurant';
+import { RestaurantService } from '../../services/restaurant/restaurant.service';
+import { Place } from '../../types/types';
 
 @Component({
   selector: 'app-restaurants',
@@ -189,10 +191,17 @@ export class RestaurantsComponent {
     }
   ]
 
+
+
+  places: Place[] = []
+
   private searchQuery: string | null = null;
   private location: string | null = null;
+  loading = false
+  error = ""
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+
+  constructor(private route: ActivatedRoute, private router: Router, private restaurantService: RestaurantService) { }
 
 
   ngOnInit(): void {
@@ -204,8 +213,26 @@ export class RestaurantsComponent {
       this.router.navigate(['/']);
     }
 
-    console.log('Search:', this.searchQuery);
-    console.log('Location:', this.location);
+    this.loading = true
+
+    this.restaurantService.getPlaces(this.searchQuery!, this.location).subscribe({
+      next: (data) => {
+        this.places = data;
+      },
+      error: (error) => {
+        this.error = error.error.message
+        this.loading = false
+      },
+      complete: () => {
+        this.loading = false
+      },
+    })
+
   }
+
+
+
+
+
 
 }

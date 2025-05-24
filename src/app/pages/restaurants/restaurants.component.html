@@ -1,8 +1,12 @@
 <section class="section">
+  <div *ngIf="loading" class="spinner-overlay">
+    <span class="spinner"></span>
+  </div>
+
   <div class="restaurant-grid">
     <app-restaurant-card
-      *ngFor="let restaurant of restaurants"
-      [restaurant]="restaurant"
+      *ngFor="let place of places"
+      [place]="place"
     ></app-restaurant-card>
 
     <div *ngIf="restaurants.length === 0" class="no-results">

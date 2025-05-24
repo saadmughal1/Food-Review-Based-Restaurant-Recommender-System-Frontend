@@ -30,3 +30,27 @@ export interface ApiResponse<T> {
     statusCode: number;
     success: boolean;
 }
+
+
+
+export interface Place {
+    business_status: string;
+    formatted_address: string;
+    icon: string;
+    name: string;
+    opening_hours: {
+        open_now: boolean;
+    }
+    place_id: string;
+    rating: number;
+    types: [string];
+    user_ratings_total: number
+    photos: [
+        {
+            height: number,
+            width: number,
+            html_attributions: [string],
+            photo_reference: string
+        }
+    ]
+}

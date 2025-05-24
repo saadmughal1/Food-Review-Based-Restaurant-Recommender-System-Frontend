@@ -1,33 +1,28 @@
 <div class="restaurant-card">
   <div class="restaurant-image">
-    <img [src]="restaurant.images && restaurant.images.length ? restaurant.images[0] : getDefaultImage()" [alt]="restaurant.name">
-    <div class="price-tag">{{restaurant.priceRange}}</div>
+    <img [src]="getPhotoUrl()" [alt]="place.name" />
   </div>
 
-  <div class="restaurant-list">
-    <app-restaurant-card 
-      *ngFor="let restaurant of restaurants" 
-      [restaurant]="restaurant">
-    </app-restaurant-card>
-  </div>
-  
   <div class="restaurant-content">
-    <h3 class="restaurant-name">{{restaurant.name}}</h3>
-    
+    <h3 class="restaurant-name">{{ place.name }}</h3>
+
     <div class="restaurant-info">
       <div class="rating">
-        <span class="rating-value">{{restaurant.averageRating?.toFixed(1) || 'New'}}</span>
-        <app-star-rating [rating]="restaurant.averageRating || 0"></app-star-rating>
-        <span class="review-count" *ngIf="restaurant.reviewCount">({{restaurant.reviewCount}})</span>
-      </div>
-      
-      <div class="cuisine-types">
-        <span *ngFor="let cuisine of restaurant.cuisineType">{{cuisine}}</span>
+        <span class="rating-value">{{ place.rating.toFixed(1) }}</span>
+        <app-star-rating [rating]="place.rating || 0"></app-star-rating>
       </div>
     </div>
-    
-    <p class="restaurant-description">{{getShortDescription(restaurant.description)}}</p>
-    
-    <a [routerLink]="['/restaurants', restaurant.id]" class="view-details">View Details</a>
+
+    <p class="opening-status">
+      {{
+        place?.opening_hours?.open_now && place.opening_hours.open_now
+          ? "Currently Open"
+          : "Currently Closed"
+      }}
+    </p>
+
+    <a [routerLink]="['/restaurants', place.place_id]" class="view-details"
+      >View Details</a
+    >
   </div>
 </div>

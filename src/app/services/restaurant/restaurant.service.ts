@@ -1,12 +1,17 @@
 import { Injectable } from "@angular/core"
 import { Observable, of } from "rxjs"
+import { HttpClient } from "@angular/common/http"
+import { tap } from "rxjs"
+
+
+import { Place } from "../../types/types"
 import { Restaurant } from "../../types/restaurant"
 
 @Injectable({
   providedIn: "root",
 })
 export class RestaurantService {
-  private apiUrl = "api/restaurants" // Replace with your actual API URL
+
 
   // Mock data for development
   private mockRestaurants: Restaurant[] = [
@@ -87,7 +92,16 @@ export class RestaurantService {
     },
   ]
 
-  constructor() {}
+  constructor(private http: HttpClient) { }
+
+  getPlaces(keyword: string, location: string | null): Observable<Place[]> {
+    return this.http.get<Place[]>(`/place?keyword=${keyword}&location=${location}`)
+  }
+
+
+
+
+
 
   getRestaurants(): Observable<Restaurant[]> {
     // Return mock data for development
@@ -158,8 +172,6 @@ export class RestaurantService {
     // Actual implementation:
     // return this.http.get<Restaurant[]>(`${this.apiUrl}/search?q=${query}`);
   }
-
-  
 
   getRecommendations(): Observable<any[]> {
     // For now, return the same mock data as recommendations
