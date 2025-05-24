@@ -1,7 +1,5 @@
 <section class="section">
-  <div *ngIf="loading" class="spinner-overlay">
-    <span class="spinner"></span>
-  </div>
+  <app-spinner [loading]="loading"></app-spinner>
 
   <div class="restaurant-grid">
     <app-restaurant-card

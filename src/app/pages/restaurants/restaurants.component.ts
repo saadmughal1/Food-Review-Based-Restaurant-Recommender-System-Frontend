@@ -5,10 +5,10 @@ import { CommonModule, NgIf } from '@angular/common';
 import { Restaurant } from '../../types/restaurant';
 import { RestaurantService } from '../../services/restaurant/restaurant.service';
 import { Place } from '../../types/types';
-
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
 @Component({
   selector: 'app-restaurants',
-  imports: [RestaurantCardComponent, NgIf, RouterModule, CommonModule],
+  imports: [RestaurantCardComponent, NgIf, RouterModule, CommonModule, SpinnerComponent],
   templateUrl: './restaurants.component.html',
   styleUrl: './restaurants.component.css'
 })
