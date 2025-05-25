@@ -42,7 +42,8 @@ export class RestaurantsComponent {
 
     this.restaurantService.getPlaces(this.searchQuery!, this.location).subscribe({
       next: (data) => {
-        this.places = data;
+        const sortedPlaces = [...data].sort((a, b) => b.rating - a.rating);
+        this.places = sortedPlaces;
         this.totalResults = data.length;
       },
       error: (error) => {

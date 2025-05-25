@@ -48,7 +48,6 @@ export class RestaurantDetailComponent implements OnInit {
 
       this.restaurantService.getPlace(placeId).subscribe({
         next: (data) => {
-          console.log(data)
           this.place = data;
         },
         error: (error) => {
