@@ -14,7 +14,16 @@
       </div>
 
       <div class="profile-info">
-        <h1>{{ currentUser.firstName }} {{ currentUser.lastName }}</h1>
+        <h1>
+          {{
+            currentUser.firstName?.charAt(0)?.toUpperCase() +
+              currentUser.firstName!.slice(1)
+          }}
+          {{
+            currentUser.lastName?.charAt(0)?.toUpperCase() +
+              currentUser.lastName!.slice(1)
+          }}
+        </h1>
         <p class="username">{{ "@" + currentUser.username }}</p>
       </div>
     </div>

@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
-import { Restaurant } from '../../types/restaurant';
 import { RestaurantService } from '../../services/restaurant/restaurant.service';
 import { FormsModule } from '@angular/forms';
 import { RestaurantCardComponent } from '../../components/restaurant-card/restaurant-card.component';
 import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Observable, map, forkJoin } from 'rxjs';
+import { map, forkJoin } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Place, User } from '../../types/types';
 

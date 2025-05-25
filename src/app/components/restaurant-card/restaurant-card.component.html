@@ -4,27 +4,31 @@
   </div>
 
   <div class="restaurant-content">
-    <h3 class="restaurant-name">{{ place.name }}</h3>
+    <div>
+      <h3 class="restaurant-name">{{ place.name }}</h3>
 
-    <div class="restaurant-info">
-      <div class="rating">
-        <span class="rating-value">{{ place.rating?.toFixed(1) }}</span>
-        <app-star-rating [rating]="place.rating || 0"></app-star-rating>
+      <div class="restaurant-info">
+        <div class="rating">
+          <span class="rating-value">{{ place.rating?.toFixed(1) }}</span>
+          <app-star-rating [rating]="place.rating || 0"></app-star-rating>
+        </div>
+      </div>
+
+      <div>
+        <p class="opening-status">
+          {{
+            place?.opening_hours?.open_now && place.opening_hours.open_now
+              ? "Today Open"
+              : "Today Closed"
+          }}
+        </p>
       </div>
     </div>
 
-    <div>
-      <p class="opening-status">
-        {{
-          place?.opening_hours?.open_now && place.opening_hours.open_now
-            ? "Today Open"
-            : "Today Closed"
-        }}
-      </p>
-    </div>
-
-    <div style="display: flex; justify-content: space-between; align-items: end;">
-      <div>
+    <div
+      style="display: flex; justify-content: space-between; align-items: end"
+    >
+      <div class="">
         <p class="cuisine">
           {{ place.cuisine && place.cuisine }}
         </p>

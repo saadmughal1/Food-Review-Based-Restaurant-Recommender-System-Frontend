@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
-import { Restaurant } from '../../types/restaurant';
 import { RestaurantCardComponent } from "../../components/restaurant-card/restaurant-card.component";
 import { CommonModule, NgIf } from '@angular/common';
 import { Place } from '../../types/types';
