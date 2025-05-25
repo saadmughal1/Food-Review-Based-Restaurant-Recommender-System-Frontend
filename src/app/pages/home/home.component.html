@@ -27,46 +27,19 @@
     </div>
   </section>
 
-  <!-- Featured Restaurants Section -->
-  <!-- <section class="section">
-    <div class="section-header">
-      <h2>Featured Restaurants</h2>
-      <a routerLink="/recommendations" class="view-all">View All</a>
-    </div>
-
-    <div class="restaurant-grid">
-      <app-restaurant-card
-        *ngFor="let restaurant of featuredRestaurants"
-        [restaurant]="restaurant"
-      ></app-restaurant-card>
-
-      <div *ngIf="featuredRestaurants.length === 0" class="no-results">
-        <p>No featured restaurants available at the moment.</p>
-      </div>
-    </div>
-  </section> -->
-
   <!-- Recommended Restaurants Section (Only for logged in users) -->
-  <!-- <section *ngIf="isLoggedIn" class="section">
-    <div class="section-header">
-      <h2>Recommended For You</h2>
-      <a routerLink="/recommendations" class="view-all">View All</a>
+  <section class="section" *ngIf="currentUser">
+    <div class="spinner-container" *ngIf="loading">
+      <span class="spinner"></span>
     </div>
 
     <div class="restaurant-grid">
       <app-restaurant-card
-        *ngFor="let restaurant of recommendedRestaurants"
-        [restaurant]="restaurant"
+        *ngFor="let place of places"
+        [place]="place"
       ></app-restaurant-card>
-
-      <div *ngIf="recommendedRestaurants.length === 0" class="no-results">
-        <p>
-          No recommendations available yet. Start reviewing restaurants to get
-          personalized recommendations!
-        </p>
-      </div>
     </div>
-  </section> -->
+  </section>
 
   <!-- How It Works Section -->
   <section class="section how-it-works">
@@ -121,7 +94,7 @@
       </p>
       <div class="cta-buttons">
         <a
-          *ngIf="!(isLoggedIn$ | async)"
+          *ngIf="!currentUser"
           routerLink="/register"
           class="cta-button primary"
           >Sign Up Now</a

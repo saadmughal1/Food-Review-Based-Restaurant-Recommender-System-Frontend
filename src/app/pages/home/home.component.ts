@@ -6,8 +6,9 @@ import { FormsModule } from '@angular/forms';
 import { RestaurantCardComponent } from '../../components/restaurant-card/restaurant-card.component';
 import { NgIf } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable, map, forkJoin } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Place, User } from '../../types/types';
 
 @Component({
   selector: 'app-home',
@@ -16,12 +17,9 @@ import { CommonModule } from '@angular/common';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  featuredRestaurants: Restaurant[] = []
-  recommendedRestaurants: Restaurant[] = []
   isLoggedIn = false
   searchQuery = ""
   selectedCity?: { name: string, coords: string };
-
   cities = [
     { name: 'Lahore', coords: '31.5204,74.3587' },
     { name: 'Karachi', coords: '24.8607,67.0011' },
@@ -35,48 +33,83 @@ export class HomeComponent {
     { name: 'Hyderabad', coords: '25.3960,68.3578' }
   ];
 
-  isLoggedIn$: Observable<boolean>;
+
+
+
+
+  private cuisinePreferences: string[] = []
+  places: Place[] = []
+  loading = false
+
+  currentUser: User | null = null
+
 
   constructor(
-    private restaurantService: RestaurantService,
-    // private recommendationService: RecommendationService,
+    private restaurant: RestaurantService,
     private authService: AuthService,
-  ) {
-    this.isLoggedIn$ = this.authService.currentUser$.pipe(
-      map(user => !!user)
-    );
-  }
+  ) { }
 
   ngOnInit(): void {
-    this.loadFeaturedRestaurants();
-    this.loadRecommendedRestaurants();
+
+    this.authService.currentUser$.subscribe((user: User | null) => {
+      this.currentUser = user
+    })
+
+    this.authService.loadPreferences()
+      .subscribe({
+        next: (preferences) => {
+          this.cuisinePreferences = preferences.data.cuisine
+          this.loadRecommendations()
+        },
+        error: (error) => {
+          console.error("Error loading preferences", error)
+          this.loading = false
+        },
+      })
   }
 
-  loadFeaturedRestaurants(): void {
-    this.restaurantService.getRestaurants().subscribe({
-      next: (restaurants) => {
-        console.log('Featured Restaurants:', restaurants);
-        this.featuredRestaurants = restaurants.slice(0, 3);
+
+  loadRecommendations(): void {
+    if (this.cuisinePreferences.length === 0) {
+      return;
+    }
+
+    this.loading = true;
+
+    const observables = this.cuisinePreferences.map(cuisine =>
+      this.restaurant.getPlaces(cuisine, null).pipe(
+        map(places => {
+          return places.map(place => ({
+            ...place,
+            cuisine: cuisine
+          }));
+        })
+      )
+    );
+
+    forkJoin(observables).subscribe({
+      next: (results) => {
+        const allPlaces = results.flat();
+        this.places = this.shuffleArray(allPlaces);
       },
       error: (error) => {
-        console.error('Error fetching featured restaurants:', error);
+        console.error("Error loading recommendations", error);
+      },
+      complete: () => {
+        this.loading = false;
+        console.log(this.loading)
       }
     });
   }
 
-  loadRecommendedRestaurants(): void {
-    if (this.isLoggedIn) {
-      this.restaurantService.getRecommendations().subscribe({
-        next: (restaurants) => {
-          console.log('Recommended Restaurants:', restaurants);
-          this.recommendedRestaurants = restaurants;
-        },
-        error: (error) => {
-          console.error('Error fetching recommended restaurants:', error);
-        }
-      });
+  shuffleArray<T>(array: T[]): T[] {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
+    return array;
   }
+
 
   search(): void {
     if (this.searchQuery.trim()) {

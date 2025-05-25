@@ -72,7 +72,7 @@ export class RecommendationsComponent implements OnInit {
 
     forkJoin(observables).subscribe({
       next: (results) => {
-        const allPlaces = results.flat(); // merge arrays
+        const allPlaces = results.flat();
         this.totalResults = allPlaces.length;
         this.places = this.shuffleArray(allPlaces);
 
