@@ -33,11 +33,7 @@ export class HomeComponent {
     { name: 'Hyderabad', coords: '25.3960,68.3578' }
   ];
 
-
-
-
-
-  private cuisinePreferences: string[] = []
+  cuisinePreferences: string[] = []
   places: Place[] = []
   loading = false
 

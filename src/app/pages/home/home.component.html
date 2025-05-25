@@ -33,11 +33,18 @@
       <span class="spinner"></span>
     </div>
 
-    <div class="restaurant-grid">
-      <app-restaurant-card
-        *ngFor="let place of places"
-        [place]="place"
-      ></app-restaurant-card>
+    <div *ngIf="cuisinePreferences.length > 0 && places.length > 0">
+      <div class="section-header">
+        <h2>Recommended For You</h2>
+        <a routerLink="/recommendations" class="view-all">View All</a>
+      </div>
+
+      <div class="restaurant-grid">
+        <app-restaurant-card
+          *ngFor="let place of places.slice(0, 3)"
+          [place]="place"
+        ></app-restaurant-card>
+      </div>
     </div>
   </section>
 
