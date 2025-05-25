@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
-import { RecommendationService } from '../../services/recommendation/recommendation.service';
-import { Restaurant } from '../../types/restaurant';
 import { RestaurantService } from '../../services/restaurant/restaurant.service';
 
-import { ReviewService } from '../../services/review/review.service';
 import { StarRatingComponent } from "../../components/star-rating/star-rating.component";
 import { ReviewFormComponent } from "../../components/review-form/review-form.component";
 import { ReviewListComponent } from "../../components/review-list/review-list.component";

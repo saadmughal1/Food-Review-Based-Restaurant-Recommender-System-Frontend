@@ -63,6 +63,7 @@ export interface Place {
     serves_breakfast?: boolean;
     dine_in?: boolean;
     delivery?: boolean;
+    cuisine?: string
 }
 
 export interface PlacePhoto {

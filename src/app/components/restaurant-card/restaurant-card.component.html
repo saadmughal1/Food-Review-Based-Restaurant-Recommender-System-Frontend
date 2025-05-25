@@ -13,16 +13,27 @@
       </div>
     </div>
 
-    <p class="opening-status">
-      {{
-        place?.opening_hours?.open_now && place.opening_hours.open_now
-          ? "Today Open"
-          : "Today Closed"
-      }}
-    </p>
- 
-    <a [routerLink]="['/restaurants', place.place_id]" class="view-details"
-      >View Details</a
-    >
+    <div>
+      <p class="opening-status">
+        {{
+          place?.opening_hours?.open_now && place.opening_hours.open_now
+            ? "Today Open"
+            : "Today Closed"
+        }}
+      </p>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: end;">
+      <div>
+        <p class="cuisine">
+          {{ place.cuisine && place.cuisine }}
+        </p>
+      </div>
+      <div>
+        <a [routerLink]="['/restaurants', place.place_id]" class="view-details"
+          >View Details</a
+        >
+      </div>
+    </div>
   </div>
 </div>

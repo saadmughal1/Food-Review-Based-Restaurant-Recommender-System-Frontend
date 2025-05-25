@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
-import { RecommendationService } from '../../services/recommendation/recommendation.service';
 import { Restaurant } from '../../types/restaurant';
 import { RestaurantService } from '../../services/restaurant/restaurant.service';
 import { FormsModule } from '@angular/forms';
@@ -40,7 +39,7 @@ export class HomeComponent {
 
   constructor(
     private restaurantService: RestaurantService,
-    private recommendationService: RecommendationService,
+    // private recommendationService: RecommendationService,
     private authService: AuthService,
   ) {
     this.isLoggedIn$ = this.authService.currentUser$.pipe(
