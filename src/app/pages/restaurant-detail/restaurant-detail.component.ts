@@ -92,15 +92,7 @@ export class RestaurantDetailComponent implements OnInit {
 
 
   onReviewSubmitted(review: Review): void {
-    const data: Review = {
-      author_name: review.author_name,
-      rating: review.rating,
-      relative_time_description: this.getFormattedDate(),
-      text: review.text,
-      author_url: "",
-      profile_photo_url: "string",
-    };
-    this.place?.reviews.push(data)
+    this.place?.reviews.push(review)
     this.showReviewForm = false
   }
 
