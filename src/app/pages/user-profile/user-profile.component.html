@@ -167,21 +167,17 @@
           <p>Loading your reviews...</p>
         </div>
 
-        <div
-          *ngIf="!reviewsLoading && userReviews.length === 0"
-          class="no-results"
-        >
+        <div *ngIf="!reviewsLoading && reviews.length === 0" class="no-results">
           <p>You haven't written any reviews yet.</p>
           <a routerLink="/restaurants" class="action-button"
             >Browse Restaurants</a
           >
         </div>
 
-        <!-- <app-review-list 
-            *ngIf="!reviewsLoading && userReviews.length > 0" 
-            [reviews]="userReviews"
-            [showRestaurantName]="true"
-          ></app-review-list> -->
+        <app-review-list
+          *ngIf="reviews.length > 0"
+          [reviews]="reviews || []"
+        ></app-review-list>
       </div>
     </div>
   </div>

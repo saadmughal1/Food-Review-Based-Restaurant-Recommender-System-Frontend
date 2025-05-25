@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../auth/auth.service';
-import { Review } from '../../types/review';
 import { ReviewService } from '../../services/review/review.service';
 import { User } from '../../types/user';
 import { CommonModule } from '@angular/common';
 import { ReviewListComponent } from '../../components/review-list/review-list.component';
-
+import { Review } from '../../types/types';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,7 +15,7 @@ import { ReviewListComponent } from '../../components/review-list/review-list.co
 })
 export class UserProfileComponent implements OnInit {
   currentUser: User | null = null
-  userReviews: Review[] = []
+  reviews: Review[] = []
   profileForm!: FormGroup
   preferencesForm!: FormGroup
   activeTab = "profile"
@@ -52,6 +51,24 @@ export class UserProfileComponent implements OnInit {
     this.initForms()
     this.loadUserData()
     this.loadUserPreferences()
+    this.loadReviews()
+  }
+
+  loadReviews(): void {
+    this.reviewsLoading = true
+
+    this.reviewService.loadReviews().subscribe({
+      next: (data) => {
+        this.reviews.push(...data.data);
+      },
+      error: (error) => {
+        console.log(error)
+        this.reviewsLoading = false
+      },
+      complete: () => {
+        this.reviewsLoading = false
+      },
+    })
   }
 
   loadUserData(): void {

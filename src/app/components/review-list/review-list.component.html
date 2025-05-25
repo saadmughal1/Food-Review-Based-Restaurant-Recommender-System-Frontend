@@ -5,12 +5,13 @@
         <div class="avatar">{{ review.author_name?.charAt(0) || "U" }}</div>
         <div class="user-details">
           <a
-            [href]="review.author_url"
+            [href]="review.author_url || 'javascript:void(0)'"
             target="_blank"
             rel="noopener noreferrer"
           >
             <div class="username">{{ review.author_name || "Anonymous" }}</div>
           </a>
+
           <div class="review-date">
             {{
               review.relative_time_description ||

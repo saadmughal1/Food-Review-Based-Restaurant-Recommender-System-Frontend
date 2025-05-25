@@ -39,6 +39,13 @@ export class ReviewService {
   }
 
 
+
+
+  loadReviews(): Observable<ApiResponse<Review[]>> {
+    return this.http.get<ApiResponse<Review[]>>(`/review/my`);
+  }
+
+
   // updateReview(review: Review): Observable<Review> {
   //   // Simulate updating a review
   //   const index = this.mockReviews.findIndex((r) => r.id === review.id)

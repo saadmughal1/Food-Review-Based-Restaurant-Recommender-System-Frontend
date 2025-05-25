@@ -14,7 +14,9 @@ export class ReviewListComponent {
   @Input() reviews: Review[] = [];
   constructor() { }
 
-  // ngOnInit(): void { }
+  ngOnInit(): void {
+    // console.log(this.reviews)
+  }
 
 
   formatDate(dateString: string) {
