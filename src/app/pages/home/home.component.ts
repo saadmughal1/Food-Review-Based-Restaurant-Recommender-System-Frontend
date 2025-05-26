@@ -72,7 +72,7 @@ export class HomeComponent {
     this.loading = true;
 
     const observables = this.cuisinePreferences.map(cuisine =>
-      this.restaurant.getPlaces(cuisine, null).pipe(
+      this.restaurant.getPlaces(`${cuisine} food`, null).pipe(
         map(places => {
           return places.map(place => ({
             ...place,

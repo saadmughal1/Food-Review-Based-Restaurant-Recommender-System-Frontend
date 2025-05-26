@@ -59,7 +59,7 @@ export class RecommendationsComponent implements OnInit {
     const startTime = performance.now();
 
     const observables = this.cuisinePreferences.map(cuisine =>
-      this.restaurant.getPlaces(cuisine, null).pipe(
+      this.restaurant.getPlaces(`${cuisine} food`, null).pipe(
         map(places => {
           return places.map(place => ({
             ...place,
