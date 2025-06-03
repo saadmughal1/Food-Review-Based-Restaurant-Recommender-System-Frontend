@@ -42,6 +42,12 @@
   font-size: 1rem;
 }
 
+.search-err {
+  color: red;
+  font-size: 1rem !important;
+  margin-top: 10px;
+}
+
 .search-container button {
   background-color: #e74c3c;
   color: white;
@@ -55,6 +61,10 @@
 
 .search-container button:hover {
   background-color: #c0392b;
+}
+
+.disable-btn {
+  background-color: #c0392b !important;
 }
 
 /* Section Styling */
@@ -264,7 +274,7 @@ option {
     transform: rotate(360deg);
   }
 }
-.spinner-container{
+.spinner-container {
   display: flex;
   justify-content: center;
   align-items: center;

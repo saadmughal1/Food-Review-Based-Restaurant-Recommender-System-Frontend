@@ -9,6 +9,7 @@ import { map, forkJoin } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Place, User } from '../../types/types';
 import { Router } from '@angular/router';
+import { SearchValidationService } from '../../services/search-validation/search-validation.service';
 
 
 @Component({
@@ -38,12 +39,15 @@ export class HomeComponent {
   places: Place[] = []
   loading = false
 
+  searchError: string = ""
+  searchLoading = false
   currentUser: User | null = null
 
 
   constructor(
     private restaurant: RestaurantService,
     private authService: AuthService,
+    private searchValidationService: SearchValidationService,
     private router: Router
   ) { }
 
@@ -114,11 +118,30 @@ export class HomeComponent {
         search: this.searchQuery
       };
 
-      if (this.selectedCity) {
-        queryParams.location = this.selectedCity.coords;
-      }
 
-      this.router.navigate(['/restaurants'], { queryParams });
+      this.searchLoading = true;
+      this.searchValidationService.validateSearch({ text: queryParams })
+        .subscribe({
+          next: (response) => {
+            if (response.response === "not_food") {
+              this.searchError = "Food not recognised, Check your spellings or try a different dish"
+            }
+            else {
+              if (this.selectedCity) {
+                queryParams.location = this.selectedCity.coords;
+              }
+
+              this.router.navigate(['/restaurants'], { queryParams });
+            }
+          },
+          error: (error) => {
+            console.log(error)
+            this.searchLoading = false;
+          },
+          complete: () => {
+            this.searchLoading = false;
+          }
+        })
     }
   }
 

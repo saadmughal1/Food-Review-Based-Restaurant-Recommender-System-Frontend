@@ -22,8 +22,17 @@
           [(ngModel)]="searchQuery"
           (keyup.enter)="search()"
         />
-        <button (click)="search()">Search</button>
+        <button
+          (click)="search()"
+          [disabled]="searchLoading"
+          [ngClass]="{ 'disable-btn': searchLoading }"
+        >
+          {{ searchLoading ? "Searching..." : "Search" }}
+        </button>
       </div>
+      <p class="search-err">
+        {{ searchError }}
+      </p>
     </div>
   </section>
 
