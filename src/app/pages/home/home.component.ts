@@ -8,6 +8,8 @@ import { RouterModule } from '@angular/router';
 import { map, forkJoin } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Place, User } from '../../types/types';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-home',
@@ -42,6 +44,7 @@ export class HomeComponent {
   constructor(
     private restaurant: RestaurantService,
     private authService: AuthService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -105,16 +108,17 @@ export class HomeComponent {
     return array;
   }
 
-
   search(): void {
     if (this.searchQuery.trim()) {
-      let url = `/restaurants?search=${encodeURIComponent(this.searchQuery)}`;
+      const queryParams: any = {
+        search: this.searchQuery
+      };
 
       if (this.selectedCity) {
-        url += `&location=${encodeURIComponent(this.selectedCity.coords)}`;
+        queryParams.location = this.selectedCity.coords;
       }
 
-      window.location.href = url;
+      this.router.navigate(['/restaurants'], { queryParams });
     }
   }
 
