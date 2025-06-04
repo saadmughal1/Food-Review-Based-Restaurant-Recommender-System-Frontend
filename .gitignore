@@ -40,3 +40,10 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+
+# Ignore all environment files
+src/environments/environment*.ts
+
+# But not the example file
+!src/environments/environment.example.ts
