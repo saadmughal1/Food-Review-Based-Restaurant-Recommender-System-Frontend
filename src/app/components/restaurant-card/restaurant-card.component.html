@@ -1,6 +1,12 @@
 <div class="restaurant-card">
   <div class="restaurant-image">
-    <img [src]="getPhotoUrl()" [alt]="place.name" />
+    <img
+      [ngSrc]="getPhotoUrl()"
+      [alt]="place.name"
+      width="400"
+      height="300"
+      loading="lazy"
+    />
   </div>
 
   <div class="restaurant-content">

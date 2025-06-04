@@ -3,10 +3,11 @@ import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { RouterModule } from '@angular/router';
 import { Place } from '../../types/types';
 import { environment } from '../../../environments/environment.development';
+import { NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-restaurant-card',
-  imports: [StarRatingComponent, RouterModule],
+  imports: [StarRatingComponent, RouterModule, NgOptimizedImage],
   templateUrl: './restaurant-card.component.html',
   styleUrl: './restaurant-card.component.css'
 })
