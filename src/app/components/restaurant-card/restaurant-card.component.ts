@@ -14,18 +14,13 @@ export class RestaurantCardComponent {
 
   @Input() place!: Place;
 
-
-  getDefaultImage(): string {
-    return "/assets/images/restaurant-placeholder.jpg"
-  }
-
   getPhotoUrl(): string {
     if (this.place.photos && this.place.photos.length > 0) {
       const photoRef = this.place.photos[0].photo_reference;
-      const apiKey = environment.GOOGLE_MAP_API_KEY;
-      return `https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${photoRef}&key=${apiKey}`
+      return `${environment.BASE_URL}/api/place/photo-proxy?photoRef=${photoRef}`;
     }
-    return ""
+    return "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&auto=format&fit=crop";
   }
+
 
 }
