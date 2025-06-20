@@ -133,3 +133,10 @@
   background-color: #c0392b;
 }
 
+.like-btn .liked {
+  transition: color 0.2s;
+  color: #e25555;
+}
+.like-btn span {
+  transition: color 0.2s;
+}

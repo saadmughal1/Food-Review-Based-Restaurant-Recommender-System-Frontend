@@ -3,17 +3,24 @@ import { StarRatingComponent } from "../star-rating/star-rating.component";
 import { RouterModule } from '@angular/router';
 import { Place } from '../../types/types';
 import { environment } from '../../../environments/environment.development';
-import { NgOptimizedImage } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 
 @Component({
   selector: 'app-restaurant-card',
-  imports: [StarRatingComponent, RouterModule, NgOptimizedImage],
+  imports: [StarRatingComponent, RouterModule, NgOptimizedImage, CommonModule],
   templateUrl: './restaurant-card.component.html',
   styleUrl: './restaurant-card.component.css'
 })
 export class RestaurantCardComponent {
 
+  isLiked = false;
+
   @Input() place!: Place;
+
+  toggleLike(event: Event): void {
+  event.stopPropagation(); // Prevents triggering card click if any
+  this.isLiked = !this.isLiked;
+}
 
   getPhotoUrl(): string {
     if (this.place.photos && this.place.photos.length > 0) {

@@ -50,6 +50,13 @@
       >
         My Reviews
       </div>
+      <div
+        class="tab"
+        [class.active]="activeTab === 'Liked'"
+        (click)="setActiveTab('Liked')"
+      >
+        My Likes
+      </div>
     </div>
 
     <div class="tab-content">
@@ -178,15 +185,23 @@
 
         <div *ngIf="!reviewsLoading && reviews.length === 0" class="no-results">
           <p>You haven't written any reviews yet.</p>
-          <a routerLink="/" class="action-button"
-            >Browse Restaurants</a
-          >
+          <a routerLink="/" class="action-button">Browse Restaurants</a>
         </div>
 
         <app-review-list
           *ngIf="reviews.length > 0"
           [reviews]="reviews || []"
         ></app-review-list>
+      </div>
+
+      <!-- likes tab -->
+      <div *ngIf="activeTab === 'Liked'" class="like-tab">
+        <h2>My Liked</h2>
+
+
+        <!-- display liked places there  -->
+
+
       </div>
     </div>
   </div>
