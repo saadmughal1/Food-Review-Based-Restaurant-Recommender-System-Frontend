@@ -6,10 +6,11 @@ import { CommonModule } from '@angular/common';
 import { ReviewListComponent } from '../../components/review-list/review-list.component';
 import { Review } from '../../types/types';
 import { User } from '../../types/types';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-user-profile',
-  imports: [ReactiveFormsModule, CommonModule, ReviewListComponent],
+  imports: [ReactiveFormsModule, CommonModule, ReviewListComponent,RouterModule],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
