@@ -47,9 +47,8 @@
           <div *ngIf="f['username'].errors['required']">
             Username is required
           </div>
-          <div *ngIf="f['username'].errors['pattern']">
-            Only letters, numbers, and underscores are allowed (no spaces or
-            special characters)
+          <div *ngIf="f['username'].errors['invalidUsername']">
+            Username must be 4-20 characters, start with a letter, and contain only letters, numbers, or underscores.
           </div>
         </div>
       </div>
@@ -65,7 +64,7 @@
         <div *ngIf="submitted && f['email'].errors" class="error-message">
           <div *ngIf="f['email'].errors['required']">Email is required</div>
           <div *ngIf="f['email'].errors['email']">
-            Email must be a valid email address
+            Kindly enter a valid email address
           </div>
         </div>
       </div>
@@ -82,8 +81,8 @@
           <div *ngIf="f['password'].errors['required']">
             Password is required
           </div>
-          <div *ngIf="f['password'].errors['minlength']">
-            Password must be at least 6 characters
+          <div *ngIf="f['password'].errors['weakPassword']">
+            Password must be at least 8 characters and include uppercase, lowercase, number, and special character.
           </div>
         </div>
       </div>
@@ -105,4 +104,3 @@
       </div>
     </form>
   </div>
-</div>

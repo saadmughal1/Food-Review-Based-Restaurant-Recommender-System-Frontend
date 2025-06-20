@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, ReactiveFormsModule,RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -25,20 +24,58 @@ export class RegisterComponent {
     private authService: AuthService,
   ) { }
 
+  strongPasswordValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value;
+  if (!value) return null;
+
+  const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+  return strongPassword.test(value)
+    ? null
+    : { weakPassword: true };
+}
+
+usernameValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+  const value = control.value;
+  if (!value) return null;
+  const usernamePattern = /^[A-Za-z][A-Za-z0-9_]{3,19}$/;
+  return usernamePattern.test(value) ? null : { invalidUsername: true };
+};
+
   ngOnInit(): void {
 
     if (this.authService.isLoggedIn()) {
       this.router.navigate(["/"])
       return
     }
+    
+
 
     this.registerForm = this.formBuilder.group(
       {
         firstName: ["", Validators.required],
         lastName: ["", Validators.required],
-        username: ["", [Validators.required, Validators.pattern(/^[a-zA-Z0-9_]+$/)],],
-        email: ["", [Validators.required, Validators.email]],
-        password: ["", [Validators.required, Validators.minLength(6)]],
+        username: [
+      "",
+      [
+        Validators.required,
+        this.usernameValidator
+      ]
+    ],
+    email: [
+      "",
+      [
+        Validators.required,
+        Validators.email
+      ]
+    ],
+         password: [
+      "",
+      [
+        Validators.required,
+        this.strongPasswordValidator
+      ]
+    ],
       },
     )
   }
