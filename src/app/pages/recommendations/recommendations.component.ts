@@ -102,7 +102,7 @@ export class RecommendationsComponent implements OnInit {
       next: (results) => {
         const allPlaces = results.flat();
         this.totalResults = allPlaces.length;
-        this.places = this.shuffleArray(allPlaces);
+        this.places = this.shuffleArray(allPlaces).sort((a, b) => b.rating - a.rating);
 
         const endTime = performance.now();
         this.responseTime = Math.round(endTime - startTime);
