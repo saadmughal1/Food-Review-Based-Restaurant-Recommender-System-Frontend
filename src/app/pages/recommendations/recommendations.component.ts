@@ -8,6 +8,7 @@ import { ResponsebarComponent } from '../../components/responsebar/responsebar.c
 import { SpinnerComponent } from '../../components/spinner/spinner.component';
 import { RouterModule } from '@angular/router';
 import { forkJoin, map } from 'rxjs';
+import { RecommendationService } from '../../services/recommendation/recommendation.service';
 
 
 @Component({
@@ -30,16 +31,17 @@ export class RecommendationsComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private restaurant: RestaurantService
+    private restaurant: RestaurantService,
+    private recommendationService: RecommendationService
   ) { }
 
   ngOnInit(): void {
+    this.loading = true
     this.authService.loadPreferences()
       .subscribe({
         next: (preferences) => {
           this.cuisinePreferences = preferences.data.cuisine
-          this.loading = false
-          this.loadRecommendations()
+          this.loadRecomendedPreferences()
         },
         error: (error) => {
           console.error("Error loading preferences", error)
@@ -49,13 +51,40 @@ export class RecommendationsComponent implements OnInit {
   }
 
 
+  loadRecomendedPreferences(): void {
+    this.loading = true
+    this.recommendationService.getRecommendedPreferences()
+      .subscribe({
+        next: (preferences) => {
+
+          const pref = preferences.data.recommended_cuisines
+
+          if (Array.isArray(pref) && pref.length > 0) {
+            const newSet = new Set([...this.cuisinePreferences, ...pref]);
+            this.cuisinePreferences = Array.from(newSet);
+            this.loadRecommendations()
+          }
+          else {
+            this.message = "No recommendations available at the moment.";
+            this.loading = false;
+          }
+
+        },
+        error: (error) => {
+          console.error("Error loading preferences", error)
+          this.loading = false
+        },
+      })
+  }
+
+
+
   loadRecommendations(): void {
     if (this.cuisinePreferences.length === 0) {
       this.message = "No cuisines selected";
       return;
     }
 
-    this.loading = true;
     const startTime = performance.now();
 
     const observables = this.cuisinePreferences.map(cuisine =>
@@ -81,6 +110,8 @@ export class RecommendationsComponent implements OnInit {
       error: (error) => {
         console.error("Error loading recommendations", error);
         this.message = "No recommendations available at the moment.";
+        this.loading = false;
+
       },
       complete: () => {
         this.loading = false;

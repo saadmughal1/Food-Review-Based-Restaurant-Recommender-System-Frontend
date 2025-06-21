@@ -171,7 +171,6 @@ export class UserProfileComponent implements OnInit {
     this.authService.updatePreferences(this.preferencesForm.value.cuisinePreferences)
       .subscribe({
         next: (user) => {
-          console.log(user)
           this.saving = false
         },
         error: (error) => {
