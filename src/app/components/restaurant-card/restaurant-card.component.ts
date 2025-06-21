@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { Place } from '../../types/types';
 import { environment } from '../../../environments/environment.development';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { LikeService } from '../../services/like/like.service';
 
 @Component({
   selector: 'app-restaurant-card',
@@ -17,10 +18,14 @@ export class RestaurantCardComponent {
 
   @Input() place!: Place;
 
-  toggleLike(event: Event): void {
-  event.stopPropagation(); // Prevents triggering card click if any
-  this.isLiked = !this.isLiked;
-}
+  constructor(private likeService: LikeService){}
+
+  toggleLike(event: Event, placeId: string): void {
+    event.stopPropagation();
+    this.isLiked = !this.isLiked;
+    this.handleIsLike(placeId);
+  }
+
 
   getPhotoUrl(): string {
     if (this.place.photos && this.place.photos.length > 0) {
@@ -29,6 +34,21 @@ export class RestaurantCardComponent {
     }
     return "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=400&auto=format&fit=crop";
   }
+
+  handleIsLike(placeId: string): void {
+    
+    this.likeService.toggleLike(placeId).subscribe({
+      next: (data) => {
+      },
+      error: (error) => {
+        console.error("Error Toggle Like", error)
+      },
+    })
+  }
+
+
+
+
 
 
 }

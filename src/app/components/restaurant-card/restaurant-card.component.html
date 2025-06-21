@@ -4,7 +4,7 @@
       [ngSrc]="getPhotoUrl()"
       [alt]="place.name"
       width="400"
-      height="300"
+      height="400"
       loading="lazy"
     />
   </div>
@@ -14,7 +14,7 @@
       <h3 class="restaurant-name">{{ place.name.slice(0, 30) + "..." }}</h3>
       <!-- Heart Like Button -->
       <button 
-        (click)="toggleLike($event)" 
+        (click)="toggleLike($event,place.place_id)" 
         class="like-btn" 
         [attr.aria-pressed]="isLiked"
         style="background: none; border: none; cursor: pointer; outline: none; padding: 0;">
