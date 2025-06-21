@@ -15,4 +15,7 @@ export class LikeService {
     return this.http.post<ApiResponse<{ message: string }>>(`/like/toggle-like`, { placeId });
   }
 
+  islike(placeId: string): Observable<ApiResponse<{ message: string }>> {
+    return this.http.post<ApiResponse<{ message: string }>>(`/like/islike`, { placeId });
+  }
 }

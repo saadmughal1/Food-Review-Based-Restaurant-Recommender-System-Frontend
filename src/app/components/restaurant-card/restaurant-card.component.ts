@@ -18,7 +18,13 @@ export class RestaurantCardComponent {
 
   @Input() place!: Place;
 
-  constructor(private likeService: LikeService){}
+  constructor(private likeService: LikeService) { }
+
+  ngOnInit(): void {
+    if (this.place?.place_id) {
+      this.isLikeStatus(this.place.place_id);
+    }
+  }
 
   toggleLike(event: Event, placeId: string): void {
     event.stopPropagation();
@@ -36,7 +42,6 @@ export class RestaurantCardComponent {
   }
 
   handleIsLike(placeId: string): void {
-    
     this.likeService.toggleLike(placeId).subscribe({
       next: (data) => {
       },
@@ -46,6 +51,19 @@ export class RestaurantCardComponent {
     })
   }
 
+
+  isLikeStatus(placeId: string): void {
+    this.likeService.islike(placeId).subscribe({
+      next: (data) => {
+        if(data.data){
+          this.isLiked = true
+        }
+      },
+      error: (error) => {
+        console.error("Error Toggle Like", error)
+      },
+    })
+  }
 
 
 
