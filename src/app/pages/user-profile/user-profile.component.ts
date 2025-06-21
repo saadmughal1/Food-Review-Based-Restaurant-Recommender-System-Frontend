@@ -7,10 +7,15 @@ import { ReviewListComponent } from '../../components/review-list/review-list.co
 import { Review } from '../../types/types';
 import { User } from '../../types/types';
 import { RouterModule } from '@angular/router';
+import { LikeService } from '../../services/like/like.service';
+import { Place } from '../../types/types';
+import { SpinnerComponent } from '../../components/spinner/spinner.component';
+import { RestaurantCardComponent } from '../../components/restaurant-card/restaurant-card.component';
+
 
 @Component({
   selector: 'app-user-profile',
-  imports: [ReactiveFormsModule, CommonModule, ReviewListComponent,RouterModule],
+  imports: [ReactiveFormsModule, CommonModule, ReviewListComponent, RouterModule, SpinnerComponent, RestaurantCardComponent],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
@@ -23,9 +28,13 @@ export class UserProfileComponent implements OnInit {
   loading = true
   reviewsLoading = true
 
+  likedPlacesLoading = true
+  likedPlaces: Place[] = []
+
 
   saving = false
   updateError = ""
+  likedPlacesMessage = ""
 
   cuisineOptions = [
     "Italian",
@@ -46,6 +55,7 @@ export class UserProfileComponent implements OnInit {
     private authService: AuthService,
     private reviewService: ReviewService,
     private formBuilder: FormBuilder,
+    private likeService: LikeService
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +63,28 @@ export class UserProfileComponent implements OnInit {
     this.loadUserData()
     this.loadUserPreferences()
     this.loadReviews()
+    this.loadMyLikedPlaces()
+  }
+
+  loadMyLikedPlaces(): void {
+    this.likeService.myLikedPlaces().subscribe({
+      next: (res) => {
+        if (res.data.length === 0) {
+          this.likedPlacesMessage = "You have not liked any places yet.";
+        } else {
+          this.likedPlacesMessage = "";
+          this.likedPlaces = res.data;
+        }
+
+      },
+      error: (error) => {
+        console.log(error)
+        this.likedPlacesLoading = false
+      },
+      complete: () => {
+        this.likedPlacesLoading = false
+      },
+    })
   }
 
   loadReviews(): void {

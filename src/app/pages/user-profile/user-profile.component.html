@@ -198,10 +198,19 @@
       <div *ngIf="activeTab === 'Liked'" class="like-tab">
         <h2>My Liked</h2>
 
-
         <!-- display liked places there  -->
+        <app-spinner [loading]="likedPlacesLoading"></app-spinner>
 
+        <div class="restaurant-grid">
+          <app-restaurant-card
+            *ngFor="let place of likedPlaces"
+            [place]="place"
+          ></app-restaurant-card>
 
+          <div *ngIf="likedPlaces.length === 0 && !likedPlacesLoading" class="no-results">
+            <p>{{ likedPlacesMessage }}</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
